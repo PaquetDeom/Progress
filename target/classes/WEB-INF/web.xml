@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  <display-name>Vaadin Web Application</display-name>
+  <context-param>
+    <description>Vaadin production mode</description>
+    <param-name>productionMode</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>Vaadin Application Servlet</servlet-name>
+    <servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+    <init-param>
+      <description>Vaadin application class to start</description>
+      <param-name>application</param-name>
+      <param-value>fr.paquet.framework.ui.CAFUI</param-value>
+    </init-param>
+  </servlet>
+</web-app>

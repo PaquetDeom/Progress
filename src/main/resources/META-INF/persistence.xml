@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="progress" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>fr.paquet.referentiel.Activite</class>
+		<class>fr.paquet.referentiel.Capacite</class>
+		<class>fr.paquet.referentiel.Fonction</class>
+		<class>fr.paquet.referentiel.Rap</class>
+		<class>fr.paquet.referentiel.Referentiel</class>
+		<class>fr.paquet.framework.ProgItem</class>
+		<class>fr.paquet.framework.authentication.Permission</class>
+		<class>fr.paquet.framework.authentication.Role</class>
+		<class>fr.paquet.framework.authentication.User</class>
+		<class>fr.paquet.referentiel.Savoir</class>
+		<class>fr.paquet.referentiel.Competence</class>
+		<class>fr.paquet.referentiel.Unite</class>
+		<class>fr.paquet.referentiel.CompetenceIntermediaire</class>
+		<class>fr.paquet.referentiel.SavoirAssocie</class>
+		<class>fr.paquet.referentiel.SousSavoirAssocie</class>
+		<class>fr.paquet.referentiel.Tache</class>
+		<class>fr.paquet.referentiel.Condition</class>
+		<class>fr.paquet.referentiel.CritereEvaluation</class>
+		<class>fr.paquet.progression.Progression</class>
+		<class>fr.paquet.progression.ConfigCompInt</class>
+		<class>fr.paquet.sequence.Sequence</class>
+		<class>fr.paquet.sequence.Introduction</class>
+		<class>fr.paquet.sequence.Decouverte</class>
+		<class>fr.paquet.sequence.Execution</class>
+		<class>fr.paquet.sequence.Validation</class>
+		<class>fr.paquet.sequence.Pretexte</class>
+		<class>fr.paquet.sequence.Phase</class>
+		<class>fr.paquet.etablissement.Eleve</class>
+		<class>fr.paquet.etablissement.Proviseur</class>
+		<class>fr.paquet.etablissement.Professeur</class>
+		<class>fr.paquet.etablissement.ResponsableEleve</class>
+		<class>fr.paquet.etablissement.Classe</class>
+		<class>fr.paquet.etablissement.Coordonnee</class>
+		<class>fr.paquet.etablissement.Commune</class>
+		<class>fr.paquet.etablissement.Geographie</class>
+		<class>fr.paquet.etablissement.Etablissement</class>
+		<class>fr.paquet.commun.Diplome</class>
+		<class>fr.paquet.etablissement.EmploiDuTemps</class>
+
+
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/progress" />
+			<property name="javax.persistence.jdbc.user" value="postgres" />
+			<property name="javax.persistence.jdbc.password" value="Login5340" />
+			<!-- <property name="eclipselink.ddl-generation" value="drop-and-create-tables" 
+				/> -->
+			<property name="eclipselink.ddl-generation" value="none" />
+		</properties>
+	</persistence-unit>
+</persistence>
