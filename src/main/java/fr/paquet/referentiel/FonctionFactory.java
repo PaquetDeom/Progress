@@ -23,6 +23,7 @@ public class FonctionFactory extends ProgressFactory {
 	public void save(Fonction fc) {
 		EntityTransaction t = getEm().getTransaction();
 		try {
+			t.begin();
 			getEm().persist(fc);
 			t.commit();
 

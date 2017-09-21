@@ -24,6 +24,7 @@ public class ConditionFactory extends ProgressFactory {
 	public void save(Condition cond) {
 		EntityTransaction t = getEm().getTransaction();
 		try {
+			t.begin();
 			getEm().persist(cond);
 			t.commit();
 		} catch (Exception e) {

@@ -23,6 +23,7 @@ public class CapaciteFactory extends ProgressFactory {
 	public void save(Capacite cap) {
 		EntityTransaction t = getEm().getTransaction();
 		try {
+			t.begin();
 			getEm().persist(cap);
 			t.commit();
 		} catch (Exception e) {

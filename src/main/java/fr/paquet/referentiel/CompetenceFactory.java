@@ -18,6 +18,7 @@ public class CompetenceFactory extends ProgressFactory {
 	public void save(Competence comp) {
 		EntityTransaction t = getEm().getTransaction();
 		try {
+			t.begin();
 			getEm().persist(comp);
 			t.commit();
 

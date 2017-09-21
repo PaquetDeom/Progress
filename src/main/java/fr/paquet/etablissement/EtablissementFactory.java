@@ -36,15 +36,27 @@ public class EtablissementFactory extends ProgressFactory {
 	public void save(Etablissement etab) {
 
 		EntityTransaction t = getEm().getTransaction();
-		try {
+		if (find(etab.getCodeRne()) != null) {
+			try {
+				t.begin();
+				getEm().refresh(etab);
+				t.commit();
+			} catch (Exception e) {
+				t.rollback();
+				throw (e);
+			}
+		} else {
 
-			t.begin();
-			getEm().persist(etab);
-			t.commit();
+			try {
 
-		} catch (Exception e) {
-			t.rollback();
-			throw (e);
+				t.begin();
+				getEm().persist(etab);
+				t.commit();
+
+			} catch (Exception e) {
+				t.rollback();
+				throw (e);
+			}
 		}
 	}
 
@@ -72,10 +84,10 @@ public class EtablissementFactory extends ProgressFactory {
 	 * @param id
 	 * @return un etablissement depuis son id<br/>
 	 */
-	public Etablissement find(long id) {
+	public Etablissement find(String codeRNE) {
 
-		Query query = getEm().createQuery("SELECT etab FROM Etablissement etab where etab.id=:id");
-		query.setParameter("id", id);
+		Query query = getEm().createQuery("SELECT etab FROM Etablissement etab where etab.codeRNE=:codeRNE");
+		query.setParameter("codeRNE", codeRNE);
 
 		try {
 
@@ -87,6 +99,25 @@ public class EtablissementFactory extends ProgressFactory {
 
 	}
 
+	/**
+	 * Affectation d'un proviseur a un etablissement<br/>
+	 * 
+	 * @param denominationPrincipale
+	 * @param pro
+	 */
+	public void AffectProviseur(String denominationPrincipale, Proviseur pro) {
+
+		Query query = getEm().createQuery(
+				"SELECT etab FROM Etablissement etab where etab.denominationPrincipale=:denominationPrincipale");
+		query.setParameter("denominationPrincipale", denominationPrincipale);
+
+		Etablissement etab = (Etablissement) query.getSingleResult();
+		etab.setProviseur(pro);
+
+		new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
+
+	}
+
 	public void Load(Element elt) {
 
 		try {
@@ -95,13 +126,12 @@ public class EtablissementFactory extends ProgressFactory {
 			String sigle = null;
 			String denominationPrincipale = null;
 			String denominationComplementaire = null;
-			SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateOuverture = null;
 			Date dateFermeture = null;
 
 			codeRNE = elt.getAttribute("CODE_RNE");
 			etab.setCodeRNE(codeRNE);
-			etab.setId(codeRNE);
 
 			String exp1 = "SIGLE";
 			sigle = elt.getElementsByTagName(exp1).item(0).getTextContent();
@@ -112,8 +142,12 @@ public class EtablissementFactory extends ProgressFactory {
 			etab.setDenominationPrincipale(denominationPrincipale);
 
 			String exp3 = "DENOM_COMPL";
-			denominationComplementaire = elt.getElementsByTagName(exp3).item(0).getTextContent();
-			etab.setDenominationComplementaire(denominationComplementaire);
+			try {
+				denominationComplementaire = elt.getElementsByTagName(exp3).item(0).getTextContent();
+				etab.setDenominationComplementaire(denominationComplementaire);
+			} catch (NullPointerException e) {
+				denominationComplementaire = null;
+			}
 
 			String exp4 = "DATE_OUVERTURE";
 			String str4 = elt.getElementsByTagName(exp4).item(0).getTextContent();

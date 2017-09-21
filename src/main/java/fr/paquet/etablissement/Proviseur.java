@@ -2,11 +2,12 @@ package fr.paquet.etablissement;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,14 +21,13 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "masculin", column = @Column(name = "PRPRSEXE")) })
 public class Proviseur extends Personne {
 
+	
+
 	/**
 	 * @author Nathanaël
 	 * 
 	 *         La class represente un proviseur d'un EPLE<br/>
 	 */
-
-	@ManyToMany
-	private List<Etablissement> etablissements = null;
 
 	/**
 	 * Constructeur vide pour la gestion de la DB<br/>
@@ -36,50 +36,6 @@ public class Proviseur extends Personne {
 		super();
 	}
 
-	/**
-	 * Constructeur pour un proviseur qui appartient a un seul
-	 * etablissement<br/>
-	 * 
-	 * @param etab
-	 */
-	public Proviseur(Etablissement etab) {
-		this();
-		addEtablissement(etab);
-	}
-
-	/**
-	 * Constructeur pour un proviseur qui appartient a plusieurs
-	 * etablissements<br/>
-	 * 
-	 * @param etabs
-	 */
-	public Proviseur(List<Etablissement> etabs) {
-		this();
-
-	}
-
-	private void addEtablissement(Etablissement etab) {
-		getEtablissements().add(etab);
-	}
-
-	/**
-	 * 
-	 * @return La liste d'etablissemnt d'un proviseur<br/>
-	 */
-	public List<Etablissement> getEtablissements() {
-		if (etablissements == null)
-			etablissements = new ArrayList<Etablissement>();
-		return etablissements;
-	}
-
-	/**
-	 * 
-	 * @return L'établissement d'un proviseur<br/>
-	 */
-	public Etablissement getEtablissement() {
-		if (getEtablissements().size() == 1)
-			return getEtablissements().get(0);
-		return null;
-	}
+	
 
 }

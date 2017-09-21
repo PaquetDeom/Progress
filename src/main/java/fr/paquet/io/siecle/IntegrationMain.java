@@ -16,11 +16,15 @@ public class IntegrationMain {
 		ClasseIntegration.CreateClasse();
 		System.out.println(" ");
 		System.out.println("-- Nomenclature fait --");
+		
+		ProviseurIntegration.CreateProviseur();
+		System.out.println(" ");
+		System.out.println("-- Proviseurs fait --");
 
 		EtablissementIntegration.CreateEtablissement();
 		System.out.println(" ");
 		System.out.println("-- Etablissements fait --");
-
+		
 		CoordonneeResponsableIntegration.CreateCoordonnee();
 		CoordonneeEleveIntegration.CreateCoordonnee();
 		System.out.println(" ");

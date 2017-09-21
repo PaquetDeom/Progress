@@ -19,11 +19,9 @@ import javax.persistence.OneToOne;
 @Table(name = "ETABLISSEMENT")
 public class Etablissement {
 
+	
 	@Id
-	@Column(name = "ETETID")
-	private int Id = 0;
-
-	@Column(name = "ETETCODE_RNE", length = 20)
+	@Column(name = "ETETID", length = 20)
 	private String codeRNE = null;
 
 	@Column(name = "ETETSIGLE", length = 20)
@@ -53,7 +51,6 @@ public class Etablissement {
 	public Etablissement(String rne) {
 		this();
 		setCodeRNE(rne);
-		setId(rne);
 	}
 
 	public Etablissement() {
@@ -69,20 +66,6 @@ public class Etablissement {
 
 	}
 
-	@SuppressWarnings("null")
-	public void setId(String rne) {
-		char[] tab = rne.toCharArray();
-		char[] tab2 = null;
-
-		for (int i = 0; i < tab.length; i++) {
-
-			if (Character.isDigit(tab[i]))
-				tab2[tab2.length] = tab[i];
-		}
-
-		String id = tab2.toString();
-		Id = Integer.parseInt(id);
-	}
 
 	public void setSigle(String sigle) {
 
@@ -100,13 +83,13 @@ public class Etablissement {
 	}
 
 	public void setDateOuverture(Date ouverture) throws Exception {
-		if (ouverture.after(dateFermeture) && dateFermeture != null)
+		if (getDateFermeture() != null && ouverture.after(getDateFermeture()))
 			throw new Exception("Date invalide");
 		this.dateOuverture = ouverture;
 	}
 
 	public void setDateFermeture(Date fermeture) throws Exception {
-		if (fermeture.before(dateOuverture))
+		if (getDateOuverture() != null && fermeture.before(getDateOuverture()))
 			throw new Exception("Date invalide");
 		this.dateFermeture = fermeture;
 	}
@@ -119,19 +102,13 @@ public class Etablissement {
 	 * 
 	 * @return Le code RNE de l'etablissement sans espace a droite et a gauche
 	 *         et en majuscule<br/>
+	 *         est l'id pour la gestion de la DB<br/>
 	 */
 	public String getCodeRne() {
 		return codeRNE;
 	}
 
-	/**
-	 * 
-	 * @return L'Id pour la gestion de la DB<br/>
-	 */
-	public int getId() {
-		return Id;
-	}
-
+	
 	/**
 	 * 
 	 * @return sigle sans espace a droite et a gauche en majuscule<br/>
