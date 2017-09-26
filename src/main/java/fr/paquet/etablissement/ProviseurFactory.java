@@ -70,7 +70,6 @@ public class ProviseurFactory extends ProgressFactory {
 			String prenom = null;
 			String denomination = null;
 
-			// TODO passer les deux noeuds UAJ et affecter le proviseur a un etab selon le Rne
 			String exp1 = "NOM_RESP";
 			String str1 = elt.getElementsByTagName(exp1).item(0).getTextContent();
 			String[] str1Tab1 = str1.split(" ");

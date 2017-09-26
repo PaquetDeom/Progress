@@ -111,10 +111,16 @@ public class EtablissementFactory extends ProgressFactory {
 				"SELECT etab FROM Etablissement etab where etab.denominationPrincipale=:denominationPrincipale");
 		query.setParameter("denominationPrincipale", denominationPrincipale);
 
-		Etablissement etab = (Etablissement) query.getSingleResult();
-		etab.setProviseur(pro);
-
-		new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
+		try {
+			
+			Etablissement etab = (Etablissement) query.getSingleResult();
+			etab.setProviseur(pro);
+			new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
+			
+		} catch (NoResultException e) {
+			pro = null;
+		}
+		
 
 	}
 
