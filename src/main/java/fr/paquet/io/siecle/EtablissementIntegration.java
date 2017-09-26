@@ -12,11 +12,14 @@ import fr.paquet.etablissement.EtablissementFactory;
 
 public class EtablissementIntegration extends SiecleIntegration {
 
-	public static void CreateEtablissement() {
+	public static void CreateEtablissement() throws Exception {
 
 		ArrayList<Element> list = new ArrayList<Element>();
+		ArrayList<Element> list1 = new ArrayList<Element>();
+
 		try {
-			getNodes(geEtablissementsDocument().getDocumentElement(), list, "ETABLISSEMENT");
+			getNodes(getCommunsDocument().getDocumentElement(), list, "PARAMETRES");
+			getNodes(getCommunsDocument().getDocumentElement(), list1, "DONNEES");
 
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -26,11 +29,10 @@ public class EtablissementIntegration extends SiecleIntegration {
 			e.printStackTrace();
 		}
 
-		for (Element elt : list) {
-
-			new EtablissementFactory(elt);
-
-		}
+		if (list.size() == 1 && list1.size() == 1)
+			new EtablissementFactory(list.get(0), list1.get(0));
+		else
+			new Exception("Les list sont trop longues");
 
 	}
 

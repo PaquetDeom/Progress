@@ -1,7 +1,5 @@
 package fr.paquet.etablissement;
 
-import java.util.Date;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -10,8 +8,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.w3c.dom.Element;
-
-import com.ibm.icu.text.SimpleDateFormat;
 
 import fr.paquet.dataBase.Connect;
 import fr.paquet.referentiel.ProgressFactory;
@@ -23,9 +19,10 @@ public class EtablissementFactory extends ProgressFactory {
 		setEm(em);
 	}
 
-	public EtablissementFactory(Element elt) {
+	public EtablissementFactory(Element eltParametre, Element eltDonnee) {
 
-		Load(elt);
+		Load(eltParametre, eltDonnee);
+
 	}
 
 	/**
@@ -111,59 +108,36 @@ public class EtablissementFactory extends ProgressFactory {
 				"SELECT etab FROM Etablissement etab where etab.denominationPrincipale=:denominationPrincipale");
 		query.setParameter("denominationPrincipale", denominationPrincipale);
 
-		try {
-			
-			Etablissement etab = (Etablissement) query.getSingleResult();
-			etab.setProviseur(pro);
-			new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
-			
-		} catch (NoResultException e) {
-			pro = null;
-		}
-		
+		Etablissement etab = (Etablissement) query.getSingleResult();
+		etab.setProviseur(pro);
+		new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
 
 	}
 
-	public void Load(Element elt) {
+	public void Load(Element eltParametre, Element eltDonnee) {
 
 		try {
+
 			Etablissement etab = new Etablissement();
 			String codeRNE = null;
-			String sigle = null;
 			String denominationPrincipale = null;
 			String denominationComplementaire = null;
-			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-			Date dateOuverture = null;
-			Date dateFermeture = null;
 
-			codeRNE = elt.getAttribute("CODE_RNE");
+			String exp0 = "UAJ";
+			codeRNE = eltParametre.getElementsByTagName(exp0).item(0).getTextContent();
 			etab.setCodeRNE(codeRNE);
 
-			String exp1 = "SIGLE";
-			sigle = elt.getElementsByTagName(exp1).item(0).getTextContent();
-			etab.setSigle(sigle);
-
-			String exp2 = "DENOM_PRINC";
-			denominationPrincipale = elt.getElementsByTagName(exp2).item(0).getTextContent();
+			String exp1 = "DENOM_PRINC";
+			denominationPrincipale = eltDonnee.getElementsByTagName(exp1).item(0).getTextContent();
 			etab.setDenominationPrincipale(denominationPrincipale);
 
-			String exp3 = "DENOM_COMPL";
+			String exp2 = "DENOM_COMPL";
 			try {
-				denominationComplementaire = elt.getElementsByTagName(exp3).item(0).getTextContent();
+				denominationComplementaire = eltDonnee.getElementsByTagName(exp2).item(0).getTextContent();
 				etab.setDenominationComplementaire(denominationComplementaire);
 			} catch (NullPointerException e) {
 				denominationComplementaire = null;
 			}
-
-			String exp4 = "DATE_OUVERTURE";
-			String str4 = elt.getElementsByTagName(exp4).item(0).getTextContent();
-			dateOuverture = formater.parse(str4);
-			etab.setDateOuverture(dateOuverture);
-
-			String exp5 = "DATE_FERMETURE";
-			String str5 = elt.getElementsByTagName(exp5).item(0).getTextContent();
-			dateFermeture = formater.parse(str5);
-			etab.setDateFermeture(dateFermeture);
 
 			new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
 			etab = null;

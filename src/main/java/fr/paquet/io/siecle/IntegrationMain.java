@@ -17,9 +17,16 @@ public class IntegrationMain {
 		System.out.println(" ");
 		System.out.println("-- Nomenclature fait --");
 			
-		EtablissementIntegration.CreateEtablissement();
-		System.out.println(" ");
-		System.out.println("-- Etablissements fait --");
+		try {
+			EtablissementIntegration.CreateEtablissement();
+			System.out.println(" ");
+			System.out.println("-- Etablissements fait --");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" ");
+			System.out.println("-- Etablissements non fait --");
+		}
+		
 		
 		ProviseurIntegration.CreateProviseur();
 		System.out.println(" ");
