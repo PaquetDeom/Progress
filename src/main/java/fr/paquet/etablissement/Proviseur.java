@@ -14,14 +14,8 @@ import javax.persistence.Table;
 @Table(name = "PROVISEUR")
 @AttributeOverrides({ @AttributeOverride(name = "id", column = @Column(name = "PRPRID")),
 		@AttributeOverride(name = "nom", column = @Column(name = "PRPRNOM", length = 20)),
-		@AttributeOverride(name = "prenom", column = @Column(name = "PRPRPRENOM", length = 50)),
-		@AttributeOverride(name = "dateEntree", column = @Column(name = "PRPRDTENTREE")),
-		@AttributeOverride(name = "dateSortie", column = @Column(name = "PRPRDTSORTIE")),
-		@AttributeOverride(name = "dateDeNaissance", column = @Column(name = "PRPRDTNAISSANCE")),
-		@AttributeOverride(name = "masculin", column = @Column(name = "PRPRSEXE")) })
+		@AttributeOverride(name = "prenom", column = @Column(name = "PRPRPRENOM", length = 50)), })
 public class Proviseur extends Personne {
-
-	
 
 	/**
 	 * @author Nathanaël
@@ -35,7 +29,5 @@ public class Proviseur extends Personne {
 	public Proviseur() {
 		super();
 	}
-
-	
 
 }

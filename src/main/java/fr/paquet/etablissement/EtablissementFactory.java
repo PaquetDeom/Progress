@@ -34,10 +34,13 @@ public class EtablissementFactory extends ProgressFactory {
 
 		EntityTransaction t = getEm().getTransaction();
 		if (find(etab.getCodeRne()) != null) {
+			Etablissement etabDb = find(etab.getCodeRne());
+
 			try {
 				t.begin();
-				getEm().refresh(etab);
+				getEm().remove(etabDb);
 				t.commit();
+				new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
 			} catch (Exception e) {
 				t.rollback();
 				throw (e);
