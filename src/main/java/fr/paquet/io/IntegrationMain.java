@@ -1,4 +1,13 @@
-package fr.paquet.io.siecle;
+package fr.paquet.io;
+
+import fr.paquet.io.siecle.ClasseIntegration;
+import fr.paquet.io.siecle.CoordonneeEleveIntegration;
+import fr.paquet.io.siecle.CoordonneeResponsableIntegration;
+import fr.paquet.io.siecle.EleveIntegration;
+import fr.paquet.io.siecle.EtablissementIntegration;
+import fr.paquet.io.siecle.GeographieIntegration;
+import fr.paquet.io.siecle.ProviseurIntegration;
+import fr.paquet.io.siecle.ResponsableIntegration;
 
 public class IntegrationMain {
 

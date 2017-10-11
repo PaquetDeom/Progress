@@ -33,30 +33,16 @@ public class EtablissementFactory extends ProgressFactory {
 	public void save(Etablissement etab) {
 
 		EntityTransaction t = getEm().getTransaction();
-		if (find(etab.getCodeRne()) != null) {
-			Etablissement etabDb = find(etab.getCodeRne());
 
-			try {
-				t.begin();
-				getEm().remove(etabDb);
-				t.commit();
-				new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
-			} catch (Exception e) {
-				t.rollback();
-				throw (e);
-			}
-		} else {
+		try {
 
-			try {
+			t.begin();
+			getEm().persist(etab);
+			t.commit();
 
-				t.begin();
-				getEm().persist(etab);
-				t.commit();
-
-			} catch (Exception e) {
-				t.rollback();
-				throw (e);
-			}
+		} catch (Exception e) {
+			t.rollback();
+			throw (e);
 		}
 	}
 
@@ -111,9 +97,21 @@ public class EtablissementFactory extends ProgressFactory {
 				"SELECT etab FROM Etablissement etab where etab.denominationPrincipale=:denominationPrincipale");
 		query.setParameter("denominationPrincipale", denominationPrincipale);
 
-		Etablissement etab = (Etablissement) query.getSingleResult();
-		etab.setProviseur(pro);
-		new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
+		EntityTransaction t = getEm().getTransaction();
+
+		try {
+			Etablissement etabDb = (Etablissement) query.getSingleResult();
+
+			t.begin();
+			etabDb.setProviseur(pro);
+			t.commit();
+
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			t.rollback();
+			throw (e);
+		}
 
 	}
 

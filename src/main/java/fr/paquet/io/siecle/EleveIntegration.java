@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import fr.paquet.etablissement.EleveFactory;
+import fr.paquet.io.RecursiveNodes;
 
 
 public class EleveIntegration extends SiecleIntegration {
@@ -17,7 +18,7 @@ public class EleveIntegration extends SiecleIntegration {
 
 		ArrayList<Element> list = new ArrayList<Element>();
 		try {
-			getNodes(getEleveAvecAdresseDocument().getDocumentElement(), list, "ELEVE");
+			RecursiveNodes.getNodes(getEleveAvecAdresseDocument().getDocumentElement(), list, "ELEVE");
 			
 		} catch (SAXException e) {
 			e.printStackTrace();

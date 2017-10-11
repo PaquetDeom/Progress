@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import fr.paquet.etablissement.EtablissementFactory;
+import fr.paquet.io.RecursiveNodes;
 
 public class EtablissementIntegration extends SiecleIntegration {
 
@@ -18,8 +19,8 @@ public class EtablissementIntegration extends SiecleIntegration {
 		ArrayList<Element> list1 = new ArrayList<Element>();
 
 		try {
-			getNodes(getCommunsDocument().getDocumentElement(), list, "PARAMETRES");
-			getNodes(getCommunsDocument().getDocumentElement(), list1, "DONNEES");
+			RecursiveNodes.getNodes(getCommunsDocument().getDocumentElement(), list, "PARAMETRES");
+			RecursiveNodes.getNodes(getCommunsDocument().getDocumentElement(), list1, "DONNEES");
 
 		} catch (SAXException e) {
 			e.printStackTrace();

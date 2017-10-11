@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import fr.paquet.etablissement.CoordonneeFactory;
+import fr.paquet.io.RecursiveNodes;
 
 public class CoordonneeResponsableIntegration extends SiecleIntegration {
 
@@ -16,7 +17,7 @@ public class CoordonneeResponsableIntegration extends SiecleIntegration {
 
 		ArrayList<Element> list = new ArrayList<Element>();
 		try {
-			getNodes(getResponsableAvecAdresseDocument().getDocumentElement(), list, "ADRESSE");
+			RecursiveNodes.getNodes(getResponsableAvecAdresseDocument().getDocumentElement(), list, "ADRESSE");
 
 		} catch (SAXException e) {
 			e.printStackTrace();

@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 
 import fr.paquet.etablissement.CommuneFactory;
 import fr.paquet.etablissement.GeographieFactory;
+import fr.paquet.io.RecursiveNodes;
 
 import org.w3c.dom.Element;
 
@@ -18,8 +19,8 @@ public class GeographieIntegration extends SiecleIntegration {
 
 		ArrayList<Element> list = new ArrayList<Element>();
 		try {
-			getNodes(getGeographiqueDocument().getDocumentElement(), list, "PAYS_NATIONALITE");
-			
+			RecursiveNodes.getNodes(getGeographiqueDocument().getDocumentElement(), list, "PAYS_NATIONALITE");
+
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -39,10 +40,10 @@ public class GeographieIntegration extends SiecleIntegration {
 	public static void CreateCommune() {
 
 		ArrayList<Element> list = new ArrayList<Element>();
-		
+
 		try {
-			getNodes(getGeographiqueDocument().getDocumentElement(), list, "COMMUNE");
-			
+			RecursiveNodes.getNodes(getGeographiqueDocument().getDocumentElement(), list, "COMMUNE");
+
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

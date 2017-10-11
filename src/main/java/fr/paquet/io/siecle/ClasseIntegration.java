@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import fr.paquet.etablissement.ClasseFactory;
+import fr.paquet.io.RecursiveNodes;
 
 public class ClasseIntegration extends SiecleIntegration {
 
@@ -16,7 +17,7 @@ public class ClasseIntegration extends SiecleIntegration {
 
 		ArrayList<Element> list = new ArrayList<Element>();
 		try {
-			getNodes(getNomenclatureDocument().getDocumentElement(), list, "MEF");
+			RecursiveNodes.getNodes(getNomenclatureDocument().getDocumentElement(), list, "MEF");
 
 		} catch (SAXException e) {
 			e.printStackTrace();
