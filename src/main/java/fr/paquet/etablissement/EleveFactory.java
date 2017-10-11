@@ -90,7 +90,7 @@ public class EleveFactory extends ProgressFactory {
 			nomDeFamille = elt.getElementsByTagName(exp1).item(0).getTextContent();
 			elv.setNom(nomDeFamille);
 
-			// TODO
+			// TODO faire 1, 2, 3 prenoms
 			String exp2 = "PRENOM";
 			prenom = elt.getElementsByTagName(exp2).item(0).getTextContent();
 			elv.setPrenom(prenom);
@@ -153,15 +153,6 @@ public class EleveFactory extends ProgressFactory {
 			else
 				adhesionTransport = false;
 			elv.setAdhesionTransport(adhesionTransport);
-			
-			String exp11 = "ADRESSE_ID";
-			String str11 = null;
-			if (elt.getElementsByTagName(exp11) != null && elt.getElementsByTagName(exp11).getLength() != 0) {
-				str11 = elt.getElementsByTagName(exp11).item(0).getTextContent();
-				long id1 = Integer.parseInt(str11);
-				elv.setCoordonnee(new CoordonneeFactory(Connect.getEmf().createEntityManager()).find(id1));
-			}
-			
 
 			new EleveFactory(Connect.getEmf().createEntityManager()).save(elv);
 

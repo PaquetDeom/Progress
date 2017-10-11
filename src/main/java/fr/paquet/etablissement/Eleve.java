@@ -25,7 +25,7 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "dateSortie", column = @Column(name = "ELELDTSORTIE")),
 		@AttributeOverride(name = "dateDeNaissance", column = @Column(name = "ELELDTNAISSANCE")),
 		@AttributeOverride(name = "masculin", column = @Column(name = "ELELSEXE")) })
-public class Eleve extends Personne implements ACoordonnee, AEmploiDuTemps {
+public class Eleve extends Personne implements AEmploiDuTemps {
 
 	@Column(name = "ELELDOUBLEMENT")
 	private boolean doublement = false;
@@ -39,25 +39,17 @@ public class Eleve extends Personne implements ACoordonnee, AEmploiDuTemps {
 
 	@Column(name = "ELELTRANSPORT")
 	private boolean adhesionTransport = false;
-
-	@JoinColumn(name = "ELREID")
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<ResponsableEleve> responsableEleves = null;
-
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Classe> classes = null;
-
-	@JoinColumn(name = "ELCOID")
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Coordonnee coordonnee = null;
-
-	@Column(name = "ELELCOORDONNEE_RESPONSABLE")
-	private boolean coordonneeResponsable = true;
 
 	@JoinColumn(name = "ELEMID")
 	@OneToOne
 	private EmploiDuTemps edt = null;
-
+	
+	@Column(name="ELELLO", length = 20)
+	private String login = null;
+		
 	public Eleve() {
 		super();
 	}
@@ -67,6 +59,8 @@ public class Eleve extends Personne implements ACoordonnee, AEmploiDuTemps {
 		setId(id);
 	}
 
+	//TODO setteur login
+	
 	public void setDoublement(boolean doublement) {
 		this.doublement = doublement;
 	}
@@ -85,47 +79,12 @@ public class Eleve extends Personne implements ACoordonnee, AEmploiDuTemps {
 	public void setAdhesionTransport(boolean adhesionTransport) {
 		this.adhesionTransport = adhesionTransport;
 	}
-
-	public void setCoordonneeResponsable(boolean coordonneeResponsable) {
-		this.coordonneeResponsable = coordonneeResponsable;
-	}
-
-	public void setCoordonnee(Coordonnee coord) {
-		this.coordonnee = coord;
-	}
-
-	public void addResponsableEleve(ResponsableEleve re) {
-		getResponsableEleves().add(re);
-	}
-
+				
 	public void addClasse(Classe cl) {
 		getClasses().add(cl);
 	}
 
-	public boolean isCoordonneeResponsable() {
-		return coordonneeResponsable;
-	}
-
-	/**
-	 * 
-	 * @return Les responsables d'un eleve<br/>
-	 */
-	public List<ResponsableEleve> getResponsableEleves() {
-		if (responsableEleves == null)
-			responsableEleves = new ArrayList<ResponsableEleve>();
-		return responsableEleves;
-	}
-
-	/**
-	 * 
-	 * @return Le responsable si il est unique de l'eleve<br/>
-	 */
-	public ResponsableEleve getResponsableEleve() {
-		if (getResponsableEleves().size() == 1)
-			return getResponsableEleves().get(0);
-		return null;
-	}
-
+			
 	/**
 	 * 
 	 * @return La liste des classes d'un eleve<br/>
@@ -188,12 +147,7 @@ public class Eleve extends Personne implements ACoordonnee, AEmploiDuTemps {
 		return adhesionTransport;
 	}
 
-	@Override
-	public Coordonnee getCoordonnee() {
-
-		return coordonnee;
-	}
-
+	
 	@Override
 	public EmploiDuTemps getEdt() {
 		if (edt == null)

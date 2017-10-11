@@ -17,21 +17,14 @@ import javax.persistence.Table;
 @AttributeOverrides({ @AttributeOverride(name = "id", column = @Column(name = "PFPFID")),
 		@AttributeOverride(name = "nom", column = @Column(name = "PFPFNOM", length = 20)),
 		@AttributeOverride(name = "prenom", column = @Column(name = "PFPFPRENOM", length = 50)),
-		@AttributeOverride(name = "dateEntree", column = @Column(name = "PFPFDTENTREE")),
-		@AttributeOverride(name = "dateSortie", column = @Column(name = "PFPFDTSORTIE")),
-		@AttributeOverride(name = "dateDeNaissance", column = @Column(name = "PFPFDTNAISSANCE")),
 		@AttributeOverride(name = "masculin", column = @Column(name = "PFPFSEXE")) })
-public class Professeur extends Personne implements ACoordonnee, AEmploiDuTemps {
+public class Professeur extends Personne implements AEmploiDuTemps {
 
 	/**
 	 * @author Nathanaël
 	 * 
 	 *         La class represente un professeur de l'education nationale<br/>
 	 */
-
-	@JoinColumn(name = "PFCOID")
-	@OneToOne
-	private Coordonnee coordonnee = null;
 
 	@JoinColumn(name = "PFEMID")
 	@OneToOne
@@ -41,15 +34,15 @@ public class Professeur extends Personne implements ACoordonnee, AEmploiDuTemps 
 	@OneToMany
 	private List<Classe> classes = null;
 
-	@Column(name = "PFPFCONCOURS", length = 10)
-	private String concours = null;
+	@Column(name = "PFPFRE", length = 50)
+	private String recrutement = null;
 
-	@Column(name = "PFPFGRADE", length = 10)
-	private String grade = null;
+	@Column(name = "PFPFDI", length = 50)
+	private String discipline = null;
 
-	@Column(name = "PFPFSPE", length = 10)
-	private String spe = null;
-
+	@Column(name = "PFPFLO", length = 50)
+	private String login = null;
+	
 	@JoinColumn(name = "PFCLID")
 	@OneToOne
 	private Classe classePrincipale = null;
@@ -74,32 +67,24 @@ public class Professeur extends Personne implements ACoordonnee, AEmploiDuTemps 
 	 *             si la specialite est manquante<br/>
 	 * 
 	 */
-	public Professeur(String concours, String grade, String spe) throws Exception {
+	public Professeur(String recrutement) throws Exception {
 		this();
-		setConcours(concours);
-		setGrade(grade);
-		setSpecialite(spe);
+		setRecrutement(recrutement);
+
 	}
 
-	public Professeur(String spe) throws Exception {
-		this(null, "Contractuel", spe);
-		setSpecialite(spe);
+	public void setRecrutement(String recrutement) {
+		this.recrutement = recrutement.trim().toUpperCase();
 	}
 
-	public void setSpecialite(String spe) throws Exception {
-		if (spe == null)
-			throw new Exception("Manque specialite");
-		this.spe = spe.trim().toUpperCase();
+	public void setDiscipline(String discipline) {
+		this.discipline = discipline.trim().toUpperCase();
 	}
-
-	public void setGrade(String grade) {
-		this.grade = grade.trim().toUpperCase();
+	
+	public void setLogin(String login){
+		this.login = login;
 	}
-
-	public void setConcours(String concours) {
-		this.concours = concours.trim().toUpperCase();
-	}
-
+		
 	public void setClassePrincipale(Classe classePrincipale) {
 		this.classePrincipale = classePrincipale;
 	}
@@ -134,30 +119,27 @@ public class Professeur extends Personne implements ACoordonnee, AEmploiDuTemps 
 	 *         gauche et en majuscule<br/>
 	 *         exemple : "PLP"; "CERTIFIE"<br/>
 	 */
-	public String getConcours() {
-		return concours;
+	public String getRecrutement() {
+		return recrutement;
 	}
-
+	
 	/**
 	 * 
-	 * @return Le grade du professeur sans espace a droite et a gouche et en
-	 *         majuscule<br/>
-	 *         exemple : "CN"; "HC"<br/>
+	 * @return La discipline enseignée<br/>
 	 */
-	public String getGrade() {
-		return grade;
+	public String getDiscipline(){
+		return discipline;
 	}
-
+	
 	/**
 	 * 
-	 * @return La specialite du professeur sans espace a droite et a gauche et
-	 *         en majuscule<br/>
-	 *         exemple : "GIB"
+	 * @return Le login pour se connecter a Progress<br/>
 	 */
-	public String getSpecialite() {
-		return spe;
+	public String getLogin(){
+		return login;
 	}
-
+	
+	
 	/**
 	 * 
 	 * @return La classe dont le prof est prof principal<br/>
@@ -176,13 +158,6 @@ public class Professeur extends Personne implements ACoordonnee, AEmploiDuTemps 
 		if (edt == null)
 			edt = new EmploiDuTemps();
 		return edt;
-	}
-
-	@Override
-	public Coordonnee getCoordonnee() {
-		if (coordonnee == null)
-			coordonnee = new Coordonnee();
-		return coordonnee;
 	}
 
 }

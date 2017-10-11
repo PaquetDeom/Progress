@@ -1,4 +1,4 @@
-package fr.paquet.io.siecle;
+package fr.paquet.io.edt;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,16 +8,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import fr.paquet.etablissement.CoordonneeFactory;
+import fr.paquet.etablissement.ProfesseurFactory;
 import fr.paquet.io.RecursiveNodes;
 
-public class CoordonneeResponsableIntegration extends SiecleIntegration {
+public class ProfesseurIntegration extends EdtIntegration {
 
-	public static void CreateCoordonnee() {
+	public static void CreateProfesseur() {
 
 		ArrayList<Element> list = new ArrayList<Element>();
 		try {
-			RecursiveNodes.getNodes(getResponsableAvecAdresseDocument().getDocumentElement(), list, "ADRESSE");
+			RecursiveNodes.getNodes(getProfesseurDocument().getDocumentElement(), list, "Professeurs");
 
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -29,7 +29,7 @@ public class CoordonneeResponsableIntegration extends SiecleIntegration {
 
 		for (Element elt : list) {
 
-			new CoordonneeFactory(elt);
+			new ProfesseurFactory(elt);
 
 		}
 

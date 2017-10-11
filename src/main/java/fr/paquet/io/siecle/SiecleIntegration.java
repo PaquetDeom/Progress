@@ -19,10 +19,9 @@ public class SiecleIntegration {
 	/**
 	 * @author Nathanaël
 	 * 
-	 *         La class est mere des class d'integration de donnees dans la
-	 *         DB<br/>
-	 *         Elle gere tous les fichiers siecle<br/>
-	 *         Elle gere les XPath<br/>
+	 * 
+	 *         Class qui gere tous les fichiers siecle<br/>
+	 * 
 	 * 
 	 */
 	private static DocumentBuilderFactory factory = null;
@@ -33,7 +32,7 @@ public class SiecleIntegration {
 	private static File EtablissementsFile = null;
 	private static File GeographiqueFile = null;
 	private static File NomenclatureFile = null;
-	private static File ResponsableAvecAdresseFile = null;
+
 	private static File StructuresFile = null;
 
 	private static Document CommunsDocument = null;
@@ -41,7 +40,7 @@ public class SiecleIntegration {
 	private static Document EtablissementsDocument = null;
 	private static Document GeographiqueDocument = null;
 	private static Document NomenclatureDocument = null;
-	private static Document ResponsableAvecAdresseDocument = null;
+
 	private static Document StructuresDocument = null;
 
 	private static Element CommunsRoot = null;
@@ -49,7 +48,7 @@ public class SiecleIntegration {
 	private static Element EtablissementsRoot = null;
 	private static Element GeographiqueRoot = null;
 	private static Element NomenclatureRoot = null;
-	private static Element ResponsableAvecAdresseRoot = null;
+
 	private static Element StructuresRoot = null;
 
 	/**
@@ -100,16 +99,6 @@ public class SiecleIntegration {
 		if (NomenclatureFile == null)
 			NomenclatureFile = new File("./Siecle/Nomenclature.xml");
 		return NomenclatureFile;
-	}
-
-	/**
-	 * 
-	 * @return le Fichier ResponsableAvecAdresse.xml<br/>
-	 */
-	private static File getResponsableAvecAdresse() {
-		if (ResponsableAvecAdresseFile == null)
-			ResponsableAvecAdresseFile = new File("./Siecle/0310053P/ResponsablesAvecAdresses.xml");
-		return ResponsableAvecAdresseFile;
 	}
 
 	/**
@@ -186,20 +175,6 @@ public class SiecleIntegration {
 		if (NomenclatureDocument == null)
 			NomenclatureDocument = getDocumentBuilder().parse(getNomenclature());
 		return NomenclatureDocument;
-	}
-
-	/**
-	 * 
-	 * @return Le document issus de ResponsableAvecAdresse.xml<br/>
-	 * @throws SAXException
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 */
-	public static Document getResponsableAvecAdresseDocument()
-			throws SAXException, IOException, ParserConfigurationException {
-		if (ResponsableAvecAdresseDocument == null)
-			ResponsableAvecAdresseDocument = getDocumentBuilder().parse(getResponsableAvecAdresse());
-		return ResponsableAvecAdresseDocument;
 	}
 
 	/**
@@ -282,20 +257,6 @@ public class SiecleIntegration {
 
 	/**
 	 * 
-	 * @return L'Element issus de ResponsableAvecAdresse.xml<br/>
-	 * @throws SAXException
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 */
-	public static Element getResponsableAvecAdresseRoot()
-			throws SAXException, IOException, ParserConfigurationException {
-		if (ResponsableAvecAdresseRoot == null)
-			ResponsableAvecAdresseRoot = getResponsableAvecAdresseDocument().getDocumentElement();
-		return ResponsableAvecAdresseRoot;
-	}
-
-	/**
-	 * 
 	 * @return L'Element issus de Structures.xml<br/>
 	 * @throws SAXException
 	 * @throws IOException
@@ -311,7 +272,7 @@ public class SiecleIntegration {
 	 * 
 	 * @return le DocumentBuilderFactory<br/>
 	 */
-	public static DocumentBuilderFactory getDocumentBuilderFactory() {
+	private static DocumentBuilderFactory getDocumentBuilderFactory() {
 		if (factory == null)
 			factory = DocumentBuilderFactory.newInstance();
 		return factory;
@@ -323,11 +284,10 @@ public class SiecleIntegration {
 	 * @throws ParserConfigurationException
 	 *             si la source est fausse<br/>
 	 */
-	public static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
+	private static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
 		if (builder == null)
 			builder = getDocumentBuilderFactory().newDocumentBuilder();
 		return builder;
 	}
-
 
 }
