@@ -97,7 +97,7 @@ public class SiecleIntegration {
 	 */
 	private static File getNomenclature() {
 		if (NomenclatureFile == null)
-			NomenclatureFile = new File("./Siecle/Nomenclature.xml");
+			NomenclatureFile = new File("./Siecle/0310053P/Nomenclature.xml");
 		return NomenclatureFile;
 	}
 

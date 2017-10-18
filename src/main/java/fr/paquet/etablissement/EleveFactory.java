@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import org.w3c.dom.Element;
 
@@ -63,6 +65,62 @@ public class EleveFactory extends ProgressFactory {
 		}
 	}
 
+	/**
+	 * 
+	 * @param name
+	 * @param firstName
+	 * @return Un eleve avec son Nom et son Prenom<br/>
+	 */
+	public Eleve FindByNameAndFirstName(String name, String firstName) {
+
+		Query query = getEm()
+				.createQuery("SELECT Eleve FROM Eleve eleve where eleve.name=:name and eleve.firstName=:firstName");
+		query.setParameter("name", name);
+		query.setParameter("firstName", firstName);
+
+		try {
+
+			return (Eleve) query.getSingleResult();
+
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	/**
+	 * Affectation d'une classe a un eleve<br/>
+	 * 
+	 * @param elv
+	 */
+	public void AffectClasse(Eleve elv) {
+
+		// TODO
+		long id = elv.getId();
+		Classe cla = elv.getClasse();
+		Query query = getEm().createQuery("SELECT elv FROM Eleve elv where elv.id=:id");
+		query.setParameter("id", id);
+
+		EntityTransaction t = getEm().getTransaction();
+
+		try {
+			Eleve eleve = (Eleve) query.getSingleResult();
+
+			t.begin();
+			eleve.addClasse(cla);
+			;
+			t.commit();
+
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			t.rollback();
+			throw (e);
+		}
+
+	}
+
 	public void Load(Element elt) {
 
 		try {
@@ -73,14 +131,11 @@ public class EleveFactory extends ProgressFactory {
 			String prenom = null;
 			Date dateNaissance = null;
 			Boolean doublement = false;
-
 			Boolean accepteSms = false;
-
 			Date dateSortie = null;
 			String codeRegime = null;
 			Date dateEntree = null;
 			Boolean sexe = false;
-
 			Boolean adhesionTransport = false;
 
 			id = Integer.parseInt(elt.getAttribute("ELEVE_ID"));
@@ -88,12 +143,11 @@ public class EleveFactory extends ProgressFactory {
 
 			String exp1 = "NOM_DE_FAMILLE";
 			nomDeFamille = elt.getElementsByTagName(exp1).item(0).getTextContent();
-			elv.setNom(nomDeFamille);
+			elv.setNom(nomDeFamille.trim().toUpperCase());
 
-			// TODO faire 1, 2, 3 prenoms
 			String exp2 = "PRENOM";
 			prenom = elt.getElementsByTagName(exp2).item(0).getTextContent();
-			elv.setPrenom(prenom);
+			elv.setPrenom(prenom.trim().toUpperCase());
 
 			String exp3 = "DATE_NAISS";
 			dateNaissance = formatter.parse(elt.getElementsByTagName(exp3).item(0).getTextContent());

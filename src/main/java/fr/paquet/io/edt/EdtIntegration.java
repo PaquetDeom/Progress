@@ -26,12 +26,15 @@ public class EdtIntegration {
 
 	private static File EXP_PROFESSEURFile = null;
 	private static File EXP_MATIEREFile = null;
+	private static File EXP_ELEVEFile = null;
 
 	private static Document EXP_PROFESSEURDocument = null;
 	private static Document EXP_MATIEREDocument = null;
+	private static Document EXP_ELEVEDocument = null;
 
 	private static Element EXP_PROFESSEURRoot = null;
 	private static Element EXP_MATIERERoot = null;
+	private static Element EXP_ELEVERoot = null;
 
 	/**
 	 * 
@@ -45,12 +48,35 @@ public class EdtIntegration {
 
 	/**
 	 * 
+	 * @return le Fichier EXP_ELEVE.xml<br/>
+	 */
+	private static File getEleve() {
+		if (EXP_ELEVEFile == null)
+			EXP_ELEVEFile = new File("./EDT/0310053P/EXP_ELEVE.xml");
+		return EXP_ELEVEFile;
+	}
+
+	/**
+	 * 
 	 * @return le Fichier EXP_MATIERE.xml<br/>
 	 */
 	private static File getMatiere() {
 		if (EXP_MATIEREFile == null)
 			EXP_MATIEREFile = new File("./EDT/0310053P/EXP_MATIERE.xml");
 		return EXP_MATIEREFile;
+	}
+
+	/**
+	 * 
+	 * @return Le document issus de EXP_ELEVE.xml<br/>
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public static Document getEleveDocument() throws SAXException, IOException, ParserConfigurationException {
+		if (EXP_ELEVEDocument == null)
+			EXP_ELEVEDocument = getDocumentBuilder().parse(getEleve());
+		return EXP_ELEVEDocument;
 	}
 
 	/**
@@ -79,6 +105,19 @@ public class EdtIntegration {
 		return EXP_MATIEREDocument;
 	}
 
+	/**
+	 * 
+	 * @return L'Element issus de EXP_ELEVE.xml<br/>
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public static Element getEleveRoot() throws SAXException, IOException, ParserConfigurationException {
+		if (EXP_ELEVERoot == null)
+			EXP_ELEVERoot = getEleveDocument().getDocumentElement();
+		return EXP_ELEVERoot;
+	}
+	
 	/**
 	 * 
 	 * @return L'Element issus de EXP_PROFESSEUR.xml<br/>

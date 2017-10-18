@@ -16,8 +16,10 @@ public class ClasseIntegration extends SiecleIntegration {
 	public static void CreateClasse() {
 
 		ArrayList<Element> list = new ArrayList<Element>();
+		ArrayList<Element> list1 = new ArrayList<Element>();
 		try {
 			RecursiveNodes.getNodes(getNomenclatureDocument().getDocumentElement(), list, "MEF");
+			RecursiveNodes.getNodes(getNomenclatureDocument().getDocumentElement(), list1, "UAJ");
 
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -29,7 +31,7 @@ public class ClasseIntegration extends SiecleIntegration {
 
 		for (Element elt : list) {
 
-			new ClasseFactory(elt);
+			new ClasseFactory(elt, list1.get(0).getTextContent());
 
 		}
 

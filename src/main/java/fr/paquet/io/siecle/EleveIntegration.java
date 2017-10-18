@@ -11,7 +11,6 @@ import org.xml.sax.SAXException;
 import fr.paquet.etablissement.EleveFactory;
 import fr.paquet.io.RecursiveNodes;
 
-
 public class EleveIntegration extends SiecleIntegration {
 
 	public static void CreateEleve() {
@@ -19,7 +18,7 @@ public class EleveIntegration extends SiecleIntegration {
 		ArrayList<Element> list = new ArrayList<Element>();
 		try {
 			RecursiveNodes.getNodes(getEleveAvecAdresseDocument().getDocumentElement(), list, "ELEVE");
-			
+
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -31,10 +30,9 @@ public class EleveIntegration extends SiecleIntegration {
 		for (Element elt : list) {
 
 			new EleveFactory(elt);
-			
+
 		}
 
-	
 	}
 
 }

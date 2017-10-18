@@ -1,12 +1,12 @@
 package fr.paquet.io;
 
+import fr.paquet.io.edt.AffectEleve;
 import fr.paquet.io.edt.ProfesseurIntegration;
 import fr.paquet.io.siecle.ClasseIntegration;
 import fr.paquet.io.siecle.EleveIntegration;
 import fr.paquet.io.siecle.EtablissementIntegration;
 import fr.paquet.io.siecle.GeographieIntegration;
 import fr.paquet.io.siecle.ProviseurIntegration;
-
 
 public class IntegrationMain {
 
@@ -20,10 +20,6 @@ public class IntegrationMain {
 		GeographieIntegration.CreateCommune();
 		System.out.println(" ");
 		System.out.println("-- Geographique fait --");
-
-		ClasseIntegration.CreateClasse();
-		System.out.println(" ");
-		System.out.println("-- Nomenclature fait --");
 
 		try {
 			EtablissementIntegration.CreateEtablissement();
@@ -39,23 +35,25 @@ public class IntegrationMain {
 		System.out.println(" ");
 		System.out.println("-- Proviseurs fait --");
 				
+		ClasseIntegration.CreateClasse();
+		System.out.println(" ");
+		System.out.println("-- Nomenclature fait --");
+		
 		EleveIntegration.CreateEleve();
-
+		AffectEleve.AffectClasse();
 		System.out.println(" ");
 		System.out.println("-- Eleve fait --");
-		
-		System.out.println("-- Siècle fait --");
-		duree = (System.nanoTime() - start) / 1000000000;
-		System.out.println(duree + "secondes");
 
 		ProfesseurIntegration.CreateProfesseur();
-
 		System.out.println(" ");
 		System.out.println("-- Professeur fait --");
 
+		
 		duree = (System.nanoTime() - start) / 1000000000;
 
 		System.out.println(" ");
+		System.out.println("-- Siècle fait --");
+		System.out.println("-- EDT fait --");
 		System.out.println(duree + "secondes");
 		System.out.println("- Fin -");
 	}

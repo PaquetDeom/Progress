@@ -80,13 +80,18 @@ public class ProfesseurFactory extends ProgressFactory {
 			String exp4 = "DISC_RECRU";
 			String str4 = elt.getElementsByTagName(exp4).item(0).getTextContent();
 			prof.setRecrutement(str4);
-		
+
 			String exp7 = "CIVILITE";
 			String str7 = elt.getElementsByTagName(exp7).item(0).getTextContent();
 			if (str7.equals("M."))
 				prof.setSexe(true);
 			else
 				prof.setSexe(false);
+
+			String exp8 = "CLASSES";
+			String str8 = elt.getElementsByTagName(exp8).item(0).getTextContent();
+			Classe cla = new ClasseFactory(Connect.getEmf().createEntityManager()).findClasseByFormation(str8);
+			prof.setClassePrincipale(cla);
 
 			new ProfesseurFactory(Connect.getEmf().createEntityManager()).save(prof);
 

@@ -2,6 +2,8 @@ package fr.paquet.etablissement;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import org.w3c.dom.Element;
 
@@ -15,9 +17,9 @@ public class ClasseFactory extends ProgressFactory {
 		setEm(em);
 	}
 
-	public ClasseFactory(Element elt) {
+	public ClasseFactory(Element elt, String Rne) {
 
-		Load(elt);
+		Load(elt, Rne);
 	}
 
 	/**
@@ -59,11 +61,29 @@ public class ClasseFactory extends ProgressFactory {
 		}
 	}
 
-	public void Load(Element elt) {
+	public Classe findClasseByFormation(String formation) {
+
+		Query query = getEm().createQuery("SELECT Classe FROM Classe classe where etab.formation=:formation");
+		query.setParameter("formation", formation);
 
 		try {
 
+			return (Classe) query.getSingleResult();
+
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public void Load(Element elt, String Rne) {
+
+		try {
+
+			Etablissement etab = new EtablissementFactory(Connect.getEmf().createEntityManager())
+					.findEtablissementByRne(Rne);
 			Classe cla = new Classe();
+			cla.setEtablissement(etab);
 			String code = null;
 			String formation = null;
 			String intitule = null;

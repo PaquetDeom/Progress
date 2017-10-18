@@ -70,7 +70,7 @@ public class EtablissementFactory extends ProgressFactory {
 	 * @param id
 	 * @return un etablissement depuis son id<br/>
 	 */
-	public Etablissement find(String codeRNE) {
+	public Etablissement findEtablissementByRne(String codeRNE) {
 
 		Query query = getEm().createQuery("SELECT etab FROM Etablissement etab where etab.codeRNE=:codeRNE");
 		query.setParameter("codeRNE", codeRNE);

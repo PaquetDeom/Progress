@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,15 +26,14 @@ public class Classe {
 	 *         La class represente une classe de l'education nationale<br/>
 	 */
 
+	@ManyToOne
+	private Etablissement etab = null;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Eleve> eleves = null;
 
 	@ManyToMany
 	private List<Professeur> professeurs = null;
-
-	@JoinColumn(name = "CLPFID")
-	@OneToOne
-	private Professeur profPrincipal = null;
 
 	@JoinColumn(name = "CLDIID")
 	@OneToOne
@@ -67,21 +67,21 @@ public class Classe {
 	 * @throws Exception
 	 *             Le code est manquant<br/>
 	 */
-	public Classe(String intitule, String code) throws Exception {
+	public Classe(Etablissement etab, String intitule, String code) throws Exception {
 		this();
 		setCode(code);
-
+		setEtablissement(etab);
 		setIntitule(intitule);
+	}
+
+	public void setEtablissement(Etablissement etab) {
+		this.etab = etab;
 	}
 
 	public void setCode(String code) throws Exception {
 		if (code == null)
 			throw new Exception("Code manquant");
 		this.code = code.trim().toUpperCase();
-	}
-
-	public void setProfPrincipal(Professeur profPrincipal) {
-		this.profPrincipal = profPrincipal;
 	}
 
 	public void setDiplome(Diplome diplome) {
@@ -106,6 +106,12 @@ public class Classe {
 
 	public void addProfesseur(Professeur prof) {
 		getProfesseurs().add(prof);
+	}
+
+	public Etablissement getEtablissement() throws Exception {
+		if (etab == null)
+			throw new Exception("Une classe doit faire partie d'un établissement");
+		return etab;
 	}
 
 	/**
@@ -137,14 +143,6 @@ public class Classe {
 		if (professeurs == null)
 			professeurs = new ArrayList<Professeur>();
 		return professeurs;
-	}
-
-	/**
-	 * 
-	 * @return Le professeur principal de la classe<br/>
-	 */
-	public Professeur getProfPrincipal() {
-		return profPrincipal;
 	}
 
 	/**
