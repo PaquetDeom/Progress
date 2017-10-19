@@ -47,6 +47,25 @@ public class EleveFactory extends ProgressFactory {
 	}
 
 	/**
+	 * Sauvegarde un eleve<br/>
+	 * 
+	 * @param elv
+	 */
+	public void update(Eleve elv) {
+
+		EntityTransaction t = getEm().getTransaction();
+		try {
+
+			t.begin();
+			getEm().merge(elv);
+			t.commit();
+
+		} catch (Exception e) {
+			t.rollback();
+			throw (e);
+		}
+	}
+	/**
 	 * Remove un eleve<br/>
 	 * 
 	 * @param elv
@@ -89,36 +108,23 @@ public class EleveFactory extends ProgressFactory {
 
 	}
 
+	public static Eleve findEleveByNameFirstName(String name, String firstName) {
+		Query query = getEm()
+				.createQuery("SELECT eleve FROM Eleve eleve where eleve.nom=:name AND eleve.prenom=:firstName");
+		query.setParameter("name", name);
+		query.setParameter("firstName", firstName);
+		return (Eleve) query.getSingleResult();
+	}
+
 	/**
 	 * Affectation d'une classe a un eleve<br/>
 	 * 
 	 * @param elv
 	 */
-	public void AffectClasse(Eleve elv) {
-
-		// TODO
-		long id = elv.getId();
-		Classe cla = elv.getClasse();
-		Query query = getEm().createQuery("SELECT elv FROM Eleve elv where elv.id=:id");
-		query.setParameter("id", id);
-
-		EntityTransaction t = getEm().getTransaction();
-
-		try {
-			Eleve eleve = (Eleve) query.getSingleResult();
-
-			t.begin();
-			eleve.addClasse(cla);
-			;
-			t.commit();
-
-		} catch (NoResultException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			t.rollback();
-			throw (e);
-		}
-
+	public void AffectClasse(String name, String firstName, Classe cla) {
+		Eleve e = findEleveByNameFirstName(name, firstName);
+		e.addClasse(cla);
+		save(e);
 	}
 
 	public void Load(Element elt) {

@@ -32,20 +32,21 @@ public class AffectEleve extends EdtIntegration {
 		}
 
 		for (Element elt : list) {
+			
+			String exp0 = "NUMERO";
+			String numero = elt.getElementsByTagName(exp0).item(0).getTextContent();
+			
 			String exp1 = "FORMATION";
-			String str1 = elt.getElementsByTagName(exp1).item(0).getTextContent();
-			Classe cla = new ClasseFactory(Connect.getEmf().createEntityManager()).findClasseByFormation(str1);
+			String formation = elt.getElementsByTagName(exp1).item(0).getTextContent();
+			Classe cla = new ClasseFactory(Connect.getEmf().createEntityManager()).findClasseByFormation(formation, numero);
 			
 			String exp2 = "NOM";
-			String name = elt.getElementsByTagName(exp2).item(0).getTextContent();
+			String name = elt.getElementsByTagName(exp2).item(0).getTextContent().trim().toUpperCase();
 			
 			String exp3 = "PRENOM";
-			String firstName = elt.getElementsByTagName(exp3).item(0).getTextContent();
-			
-			Eleve elv = new EleveFactory(Connect.getEmf().createEntityManager()).FindByNameAndFirstName(name.trim().toUpperCase(), firstName.trim().toUpperCase());
-			
-			elv.addClasse(cla);
-			new EleveFactory(Connect.getEmf().createEntityManager()).AffectClasse(elv);
+			String firstName = elt.getElementsByTagName(exp3).item(0).getTextContent().trim().toUpperCase();
+												
+			new EleveFactory(Connect.getEmf().createEntityManager()).AffectClasse(name, firstName, cla);
 			
 			
 

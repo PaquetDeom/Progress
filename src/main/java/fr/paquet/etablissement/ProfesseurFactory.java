@@ -90,8 +90,10 @@ public class ProfesseurFactory extends ProgressFactory {
 
 			String exp8 = "CLASSES";
 			String str8 = elt.getElementsByTagName(exp8).item(0).getTextContent();
-			Classe cla = new ClasseFactory(Connect.getEmf().createEntityManager()).findClasseByFormation(str8);
-			prof.setClassePrincipale(cla);
+			// Classe cla = new
+			// ClasseFactory(Connect.getEmf().createEntityManager()).findClasseByFormation(str8,
+			// str8);
+			// prof.setClassePrincipale(cla);
 
 			new ProfesseurFactory(Connect.getEmf().createEntityManager()).save(prof);
 

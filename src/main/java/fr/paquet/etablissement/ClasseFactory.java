@@ -61,9 +61,10 @@ public class ClasseFactory extends ProgressFactory {
 		}
 	}
 
-	public Classe findClasseByFormation(String formation) {
+	public Classe findClasseByFormation(String formation, String numero) {
 
-		Query query = getEm().createQuery("SELECT Classe FROM Classe classe where etab.formation=:formation");
+		// TODO
+		Query query = getEm().createQuery("SELECT Classe FROM Classe classe where classe.intitule=:formation");
 		query.setParameter("formation", formation);
 
 		try {
@@ -72,6 +73,8 @@ public class ClasseFactory extends ProgressFactory {
 
 		} catch (NoResultException e) {
 			e.printStackTrace();
+			System.out.println(numero);
+
 			return null;
 		}
 	}
