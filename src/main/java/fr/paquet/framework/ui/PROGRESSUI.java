@@ -19,7 +19,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 import fr.paquet.framework.authentication.*;
 import fr.paquet.framework.ui.LoginScreen.*;
-import fr.paquet.ihm.integration.XMLIntegration;
+import fr.paquet.ihm.Import.XMLImportView;
+
 import fr.paquet.ihm.progression.ProgressionView;
 import fr.paquet.ihm.referentiel.ReferentielView;
 import fr.paquet.ihm.sequence.SequenceView;
@@ -108,7 +109,7 @@ public class PROGRESSUI extends UI {
 			getMainScreen().addView(new ReferentielView());
 			getMainScreen().addView(new ProgressionView());
 			getMainScreen().addView(new SequenceView());
-			getMainScreen().addView(new XMLIntegration());
+			getMainScreen().addView(new XMLImportView());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

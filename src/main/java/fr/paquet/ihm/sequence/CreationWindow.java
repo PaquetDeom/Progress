@@ -59,7 +59,7 @@ public class CreationWindow extends Window {
 	}
 
 	/**
-	 * Methode de cretation de la fenetre<br/>
+	 * Methode de creation de la fenetre<br/>
 	 */
 	private void buildWindow() {
 

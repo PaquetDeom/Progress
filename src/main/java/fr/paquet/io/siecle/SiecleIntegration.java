@@ -32,7 +32,6 @@ public class SiecleIntegration {
 	private static File EtablissementsFile = null;
 	private static File GeographiqueFile = null;
 	private static File NomenclatureFile = null;
-
 	private static File StructuresFile = null;
 
 	private static Document CommunsDocument = null;
