@@ -1,5 +1,8 @@
 package fr.paquet.ihm.Import;
 
+import java.io.File;
+import java.nio.file.Files;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -7,10 +10,11 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 
+import fr.paquet.ihm.AlertListener;
 import fr.paquet.ihm.AlertWindow;
 
 @SuppressWarnings("serial")
-public class WindowRepertoire extends Window {
+public class WindowRepertoire extends Window implements AlertListener {
 
 	private XMLImportView XMLIV = null;
 
@@ -77,24 +81,22 @@ public class WindowRepertoire extends Window {
 					getXMLImportView().setRne();
 					getXMLImportView().setPathFolder();
 
-					// verifie si le repertoire existe
-					if (getXMLImportView().getPathFolder().exists())
-						new XMLImportView().getXMLImportViewPanelContent().getUI().getUI().addWindow(new AlertWindow(
-								"message !!!",
-								"Vos fichiers vont être importer dans le répertoire" + getXMLImportView().getRne())
-										.show());
-					else {
-						getXMLImportView().getPathFolder().createNewFile();
-						new XMLImportView().getXMLImportViewPanelContent().getUI().getUI().addWindow(new AlertWindow(
-								"message !!!",
-								"Vos fichiers vont être importer dans le répertoire" + getXMLImportView().getRne())
-										.show());
+					// verifie si le repertoire existe si non cree
+					File file = new File(getXMLImportView().getPathFolder().toString());
+					if (!file.exists()) {
+						Files.createDirectories(getXMLImportView().getPathFolder());
+						System.out.println("Repertoire créé " + getXMLImportView().getPathFolder().toString());
 					}
+
+					getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
+							.addWindow(new AlertWindow("message !!!",
+									"Vos fichiers vont être importer dans le répertoire " + getXMLImportView().getRne(),
+									new String[] { "Suite" }, WindowRepertoire.this).show());
 
 					close();
 
 				} catch (Exception e) {
-					new XMLImportView().getXMLImportViewPanelContent().getUI().getUI()
+					getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
 							.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());
 					e.printStackTrace(System.out);
 				}
@@ -118,6 +120,17 @@ public class WindowRepertoire extends Window {
 		});
 
 		return annulButton;
+	}
+
+	@Override
+	public void buttonClick(String button) {
+		if (button.equals("Suite")) {
+			getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
+					.addWindow(new WindowImport(new ChoiseImport(getXMLImportView()), "Valider"));
+		}
+
+		close();
+
 	}
 
 }

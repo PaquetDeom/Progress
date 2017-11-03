@@ -1,43 +1,34 @@
 package fr.paquet.ihm.Import;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
-import javax.naming.directory.DirContext;
-
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Upload.SucceededEvent;
-import com.vaadin.ui.Upload.SucceededListener;
 
-import fr.paquet.dataBase.Connect;
 import fr.paquet.framework.ui.ProgView;
+import fr.paquet.ihm.AlertListener;
 import fr.paquet.ihm.AlertWindow;
-import fr.paquet.ihm.sequence.CreationWindow;
-import fr.paquet.ihm.sequence.SequenceView;
-import fr.paquet.sequence.Sequence;
-import fr.paquet.sequence.SequenceFactory;
 
-public class XMLImportView extends AbsoluteLayout implements ProgView, SucceededListener {
+//TODO Listener OkButton
+@SuppressWarnings("serial")
+public class XMLImportView extends AbsoluteLayout implements ProgView, OkButtonWindowImport {
 	/**
 	 * 
 	 */
 
+	private Panel panel = null;
 	private VerticalLayout mainLayout = null;
 	private TextField rne = null;
 	private String rneString = null;
-	private File pathFolder = null;
-	private File pathSiecleFolder = null;
-	private File pathEdtFolder = null;
+	private Path pathFolder = null;
+	private Path pathSiecleFolder = null;
+	private Path pathEdtFolder = null;
 
 	/**
 	 * Constructeur de la class<br/>
@@ -59,9 +50,10 @@ public class XMLImportView extends AbsoluteLayout implements ProgView, Succeeded
 	/**
 	 * efface ecran puis cree un VerticalLayout<br/>
 	 */
-	private void BuildView() {
+	public void BuildView() {
 
 		removeAllComponents();
+		setPanel(new Panel());
 		addStyleName("XMLImport");
 
 		setSizeFull();
@@ -70,6 +62,18 @@ public class XMLImportView extends AbsoluteLayout implements ProgView, Succeeded
 		layout.addComponent(getDetail());
 		addComponent(layout);
 
+	}
+
+	private void setPanel(Panel panel) {
+		this.panel = panel;
+	}
+
+	/**
+	 * 
+	 * @return le Panel de getDetail<br/>
+	 */
+	private Panel getPanel() {
+		return panel;
 	}
 
 	/**
@@ -86,47 +90,45 @@ public class XMLImportView extends AbsoluteLayout implements ProgView, Succeeded
 	 * 
 	 * @return Le component principal de l'ecran<br/>
 	 */
-	@SuppressWarnings("serial")
+
 	private Component getDetail() {
 
 		// creation des buttons
 		Button importXml = new Button("Import");
-		Button siecle = new Button("Siecle");
+
+		// creaton de layout
+		HorizontalLayout hLayout = new HorizontalLayout();
+		hLayout.setSpacing(true);
 
 		// Panel principal
-		Panel pan = new Panel();
-		pan.setCaption("Accueil - Import des Fichiers *.xml");
+		getPanel().setCaption("Accueil - Import des Fichiers *.xml");
 
 		// Layout principal
 		VerticalLayout vLayout = getXMLImportViewPanelContent();
 
 		// organisation des layout
-		vLayout.addComponent(importXml);
-		vLayout.addComponent(siecle);
+		if (getPathFolder() == null)
+			vLayout.addComponent(importXml);
 
-		pan.setContent(vLayout);
+		// TODO Faire une Window
+		if (getPathFolder() != null) {
+			hLayout.setCaption("Import des fichiers de l'établissement " + getRne());
+			vLayout.addComponent(hLayout);
+		}
 
+		getPanel().setContent(vLayout);
+
+		// listener du button de creation des folders
 		importXml.addClickListener(new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
 
 				getXMLImportViewPanelContent().getUI().getUI().addWindow(getWindowRepertoire());
-
-			}
-		});
-		
-		siecle.addClickListener(new Button.ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				
-				getXMLImportViewPanelContent().getUI().getUI().addWindow(new WindowImport(new SiecleImport(XMLImportView.this)));
-				
 			}
 		});
 
-		return pan;
+		return getPanel();
 	}
 
 	/**
@@ -173,75 +175,68 @@ public class XMLImportView extends AbsoluteLayout implements ProgView, Succeeded
 
 	public void setPathFolder() {
 
-		this.pathFolder = new File(
-				VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() + "/fileFolder/" + getRne());
+		this.pathFolder = Paths
+				.get(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() + "/fileFolder/" + getRne());
+
 	}
 
 	public void setPathSiecleFolder() {
 
-		this.pathSiecleFolder = new File(
-				VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() + "/fileFolder/" + getRne() + "Siecle/");
+		this.pathSiecleFolder = Paths.get(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
+				+ "/fileFolder/" + getRne() + "/Siecle");
 	}
 
 	public void setPathEdtFolder() {
 
-		this.pathEdtFolder = new File(
-				VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() + "/fileFolder/" + getRne() + "EDT/");
+		this.pathEdtFolder = Paths.get(
+				VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() + "/fileFolder/" + getRne() + "/EDT");
 	}
 
 	/**
 	 * 
 	 * @return Le répertoire d'accueil des fichiers Siecle et EDT<br/>
 	 */
-	public File getPathFolder() {
+	public Path getPathFolder() {
 
 		return pathFolder;
 	}
-	
+
 	/**
 	 * 
 	 * @return Le repertoire d'accueil des fichiers siècles<br/>
 	 */
-	public File getPathSiecleFolder() {
+	public Path getPathSiecleFolder() {
 		return pathSiecleFolder;
 	}
-	
+
 	/**
 	 * 
 	 * @return Le repertoire d'accueil des fichiers Edt<br/>
-	 */ 
-	public File getPathEdtFolder() {
+	 */
+	public Path getPathEdtFolder() {
 		return pathEdtFolder;
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return "Integration XML";
+
+		return "Import et integration XML";
 	}
 
 	@Override
 	public String getCaption() {
-		// TODO Auto-generated method stub
-		return "Integration XML";
-	}
 
-	private void showNotification(Notification notification) {
-		// keep the notification visible a little while after moving the
-		// mouse, or until clicked
-		notification.setDelayMsec(10000);
-		notification.show(Page.getCurrent());
+		return "Import et integration XML";
 	}
 
 	@Override
-	public void uploadSucceeded(SucceededEvent event) {
-		// TODO Auto-generated method stub
+	public void buttonClick(String button) {
+		// TODO
 
 	}
 

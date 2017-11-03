@@ -1,7 +1,10 @@
 package fr.paquet.ihm.Import;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import com.vaadin.ui.Label;
@@ -26,36 +29,84 @@ public class SiecleImport extends VerticalLayout implements SucceededListener {
 	public SiecleImport(XMLImportView xml) {
 		super();
 		setXMLImportView(xml);
-
-		// construction du layout
 		setSizeFull();
 
-		Label label = new Label("integration du fichier Communs.xml");
-		Upload upload1 = new Upload(null, new Upload.Receiver() {
+		for (int i = 0; i < 5; i++) {
 
-			public java.io.OutputStream receiveUpload(String filename, String mimeType) {
+			Label label = new Label();
+			Layout emptyScreen = new VerticalLayout();
+			Upload upload = new Upload(null, new Upload.Receiver() {
 
-				File Communs = new File(getXmlView().getPathSiecleFolder() + "Communs.xml");
+				@Override
+				public OutputStream receiveUpload(String filename, String mimeType) {
 
-				try {
-					Communs.createNewFile();
-					System.out.println("Creation du fichier " + Communs.getAbsolutePath());
-					return new FileOutputStream(Communs);
+					File file = new File(getXmlView().getPathSiecleFolder() + filename);
 
-				} catch (Exception e) {
-					e.printStackTrace();
-					return null;
+					try {
+						file.createNewFile();
+						System.out.println("Creation du fichier " + file.getAbsolutePath());
+						return new FileOutputStream(file);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+						return null;
+					}
 				}
+			});
+
+			switch (i) {
+			case 0:
+				label.setCaption("import du fichier (Communs.xml)");
+				upload.addSucceededListener(this);
+				addComponent(label);
+				addComponent(upload);
+				addComponent(emptyScreen);
+				setExpandRatio(emptyScreen, 1.0f);
+				break;
+			case 1:
+				label.setCaption("import du fichier (EleveAvecAdresse.xml)");
+				upload.addSucceededListener(this);
+				addComponent(label);
+				addComponent(upload);
+				addComponent(emptyScreen);
+				setExpandRatio(emptyScreen, 1.0f);
+				break;
+			case 2:
+				label.setCaption("import du fichier (Etablissements.xml)");
+				upload.addSucceededListener(this);
+				addComponent(label);
+				addComponent(upload);
+				addComponent(emptyScreen);
+				setExpandRatio(emptyScreen, 1.0f);
+				break;
+			case 3:
+				label.setCaption("import du fichier (Geographique.xml)");
+				upload.addSucceededListener(this);
+				addComponent(label);
+				addComponent(upload);
+				addComponent(emptyScreen);
+				setExpandRatio(emptyScreen, 1.0f);
+				break;
+			case 4:
+				label.setCaption("import du fichier (Nomenclature.xml)");
+				upload.addSucceededListener(this);
+				addComponent(label);
+				addComponent(upload);
+				addComponent(emptyScreen);
+				setExpandRatio(emptyScreen, 1.0f);
+				break;
+			case 5:
+				label.setCaption("import du fichier (Structures.xml)");
+				upload.addSucceededListener(this);
+				addComponent(label);
+				addComponent(upload);
+				addComponent(emptyScreen);
+				setExpandRatio(emptyScreen, 1.0f);
+				break;
 			}
-		});
-		upload1.addSucceededListener(this);
-		addComponent(label);
-		addComponent(upload1);
 
-		Layout emptyScreen = new VerticalLayout();
+		}
 
-		addComponent(emptyScreen);
-		setExpandRatio(emptyScreen, 1.0f);
 	}
 
 	private void setXMLImportView(XMLImportView xml) {
