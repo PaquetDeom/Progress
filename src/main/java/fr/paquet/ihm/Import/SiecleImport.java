@@ -46,7 +46,7 @@ public class SiecleImport extends VerticalLayout implements SucceededListener {
 		BuildLayout();
 
 	}
-
+//essai
 	private void BuildLayout() {
 
 		removeAllComponents();
