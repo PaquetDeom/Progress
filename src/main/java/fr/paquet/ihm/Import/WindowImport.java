@@ -10,24 +10,17 @@ import com.vaadin.ui.Button.ClickEvent;
 import fr.paquet.ihm.AlertListener;
 
 @SuppressWarnings("serial")
-public class WindowImport extends Window implements Button.ClickListener {
+public class WindowImport extends Window {
 
 	private VerticalLayout mainLayout = null;
-	private Button okButton = null;
-	public OkButtonWindowImport okListener = null;
+		
 
-	public WindowImport(VerticalLayout layout, String okButton) {
-		super();
-		setOkButton(okButton);
+	public WindowImport(VerticalLayout layout) {
+		super();		
 		setMainLayout(layout);
 		BuildWindow();
 	}
-
-	private void setOkButton(String button) {
-
-		this.okButton = new Button(button);
-	}
-
+	
 	private void setMainLayout(VerticalLayout layout) {
 		this.mainLayout = layout;
 	}
@@ -50,7 +43,7 @@ public class WindowImport extends Window implements Button.ClickListener {
 
 		HorizontalLayout hLayout = new HorizontalLayout();
 		hLayout.setSpacing(true);
-		getOkButton().addClickListener(this);
+		
 		hLayout.addComponent(getOkButton());
 		hLayout.addComponent(getAnnulButton());
 
@@ -64,15 +57,25 @@ public class WindowImport extends Window implements Button.ClickListener {
 	}
 
 	private Button getOkButton() {
+		
+		Button button = new Button("Valider");
+		
+		button.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
-		return okButton;
+		return button;
 	}
 
 	private Button getAnnulButton() {
 
 		Button button = new Button("Annuler");
 
-		// listener
 		button.addClickListener(new Button.ClickListener() {
 
 			@Override
@@ -83,16 +86,6 @@ public class WindowImport extends Window implements Button.ClickListener {
 		});
 
 		return button;
-	}
-
-	@Override
-	public void buttonClick(ClickEvent event) {
-
-		Button btn = (Button) event.getSource();
-		okListener.buttonClick(btn.getCaption());
-
-		close();
-
 	}
 
 }

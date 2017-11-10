@@ -1,8 +1,5 @@
 package fr.paquet.ihm.Import;
 
-import java.io.File;
-import java.nio.file.Files;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
@@ -36,7 +33,6 @@ public class ChoiseImport extends VerticalLayout {
 		this.addComponent(hLayout);
 
 		// listener du button d'import de siecle
-
 		siecle.addClickListener(new Button.ClickListener() {
 
 			/**
@@ -48,15 +44,9 @@ public class ChoiseImport extends VerticalLayout {
 			public void buttonClick(ClickEvent event) {
 
 				try {
-					getXmlView().setPathSiecleFolder();
-					File siecleFile = getXmlView().getPathSiecleFolder().toFile();
-					if (!siecleFile.exists()) {
-						Files.createDirectories(getXmlView().getPathSiecleFolder());
-						System.out.println("Repertoire créé " + getXmlView().getPathSiecleFolder().toString());
-					}
 
 					getXmlView().getXMLImportViewPanelContent().getUI().getUI()
-							.addWindow(new WindowImport(new SiecleImport(getXmlView()), "Valider"));
+							.addWindow(new WindowImport(new SiecleImport(getXmlView())));
 				} catch (Exception e) {
 					getXmlView().getXMLImportViewPanelContent().getUI().getUI()
 							.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());
@@ -79,16 +69,10 @@ public class ChoiseImport extends VerticalLayout {
 			public void buttonClick(ClickEvent event) {
 
 				try {
-					getXmlView().setPathEdtFolder();
-					File edtFile = getXmlView().getPathEdtFolder().toFile();
-					if (!edtFile.exists()) {
-						Files.createDirectories(getXmlView().getPathEdtFolder());
-						System.out.println("Repertoire créé " + getXmlView().getPathEdtFolder().toString());
-
-					}
 
 					getXmlView().getXMLImportViewPanelContent().getUI().getUI()
-							.addWindow(new WindowImport(new EdtImport(getXmlView()), "Valider"));
+							.addWindow(new WindowImport(new EdtImport(getXmlView())));
+
 				} catch (Exception e) {
 					getXmlView().getXMLImportViewPanelContent().getUI().getUI()
 							.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());

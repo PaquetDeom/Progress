@@ -1,34 +1,20 @@
 package fr.paquet.ihm.Import;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.regex.Pattern;
-
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.VaadinService;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
 import fr.paquet.framework.ui.ProgView;
-import fr.paquet.ihm.AlertListener;
-import fr.paquet.ihm.AlertWindow;
 
 //TODO Listener OkButton
 @SuppressWarnings("serial")
-public class XMLImportView extends AbsoluteLayout implements ProgView, OkButtonWindowImport {
+public class XMLImportView extends AbsoluteLayout implements ProgView {
 	/**
 	 * 
 	 */
 
 	private Panel panel = null;
 	private VerticalLayout mainLayout = null;
-	private TextField rne = null;
-	private String rneString = null;
-	private Path pathFolder = null;
-	private Path pathSiecleFolder = null;
-	private Path pathEdtFolder = null;
 
 	/**
 	 * Constructeur de la class<br/>
@@ -106,16 +92,7 @@ public class XMLImportView extends AbsoluteLayout implements ProgView, OkButtonW
 		// Layout principal
 		VerticalLayout vLayout = getXMLImportViewPanelContent();
 
-		// organisation des layout
-		if (getPathFolder() == null)
-			vLayout.addComponent(importXml);
-
-		// TODO Faire une Window
-		if (getPathFolder() != null) {
-			hLayout.setCaption("Import des fichiers de l'établissement " + getRne());
-			vLayout.addComponent(hLayout);
-		}
-
+		vLayout.addComponent(importXml);
 		getPanel().setContent(vLayout);
 
 		// listener du button de creation des folders
@@ -129,92 +106,6 @@ public class XMLImportView extends AbsoluteLayout implements ProgView, OkButtonW
 		});
 
 		return getPanel();
-	}
-
-	/**
-	 * 
-	 * @return la zone de saisi du code Rne de l'etablissement<br/>
-	 */
-	public TextField getRneTextField() {
-
-		if (rne == null) {
-			rne = new TextField();
-			rne.setWidth(35, Unit.EM);
-			rne.setCaption("Code Rne");
-			rne.setInputPrompt("Saisir le code Rne de l'établissement scolaire");
-		}
-
-		return rne;
-	}
-
-	public void setRne() throws Exception {
-
-		String codeRne = getRneTextField().getValue().trim();
-
-		// test si la valeur est nulle ou vide
-		if (codeRne == null || codeRne.equals(""))
-			throw new Exception("Veuillez saisir un code rne");
-
-		// test si elle correspond a l'expression reguliere
-		boolean a = false;
-		a = Pattern.matches("([0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z])", codeRne);
-		if (a == false)
-			throw new Exception("Code Rne invalide");
-
-		this.rneString = codeRne;
-	}
-
-	/**
-	 * 
-	 * @return le code rne saisi par l'operateur<br/>
-	 */
-	public String getRne() {
-
-		return rneString;
-	}
-
-	public void setPathFolder() {
-
-		this.pathFolder = Paths
-				.get(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() + "/fileFolder/" + getRne());
-
-	}
-
-	public void setPathSiecleFolder() {
-
-		this.pathSiecleFolder = Paths.get(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
-				+ "/fileFolder/" + getRne() + "/Siecle");
-	}
-
-	public void setPathEdtFolder() {
-
-		this.pathEdtFolder = Paths.get(
-				VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() + "/fileFolder/" + getRne() + "/EDT");
-	}
-
-	/**
-	 * 
-	 * @return Le répertoire d'accueil des fichiers Siecle et EDT<br/>
-	 */
-	public Path getPathFolder() {
-
-		return pathFolder;
-	}
-
-	/**
-	 * 
-	 * @return Le repertoire d'accueil des fichiers siècles<br/>
-	 */
-	public Path getPathSiecleFolder() {
-		return pathSiecleFolder;
-	}
-
-	/**
-	 * 
-	 * @return Le repertoire d'accueil des fichiers Edt<br/>
-	 */
-	public Path getPathEdtFolder() {
-		return pathEdtFolder;
 	}
 
 	@Override
@@ -232,12 +123,6 @@ public class XMLImportView extends AbsoluteLayout implements ProgView, OkButtonW
 	public String getCaption() {
 
 		return "Import et integration XML";
-	}
-
-	@Override
-	public void buttonClick(String button) {
-		// TODO
-
 	}
 
 }

@@ -1,11 +1,13 @@
 package fr.paquet.ihm.Import;
 
-import java.io.File;
-import java.nio.file.Files;
+
+import java.io.IOException;
+
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
@@ -17,6 +19,7 @@ import fr.paquet.ihm.AlertWindow;
 public class WindowRepertoire extends Window implements AlertListener {
 
 	private XMLImportView XMLIV = null;
+	private TextField rne = null;
 
 	/**
 	 * constructeur de la Window<br/>
@@ -42,6 +45,7 @@ public class WindowRepertoire extends Window implements AlertListener {
 
 	private void BuildWindow() {
 
+		rne = null;
 		setCaption("Quel est le nom du repertoire qui reçoit vos fichiers");
 		setSizeUndefined();
 		setWidth(600.0f, Unit.PIXELS);
@@ -56,13 +60,29 @@ public class WindowRepertoire extends Window implements AlertListener {
 		hLayout.addComponent(getOkButton());
 		hLayout.addComponent(getAnnulButton());
 
-		layout.addComponent(getXMLImportView().getRneTextField());
+		layout.addComponent(getRneTextField());
 		layout.addComponent(hLayout);
 		content.addComponent(layout);
 		setContent(content);
 
 		setVisible(true);
 
+	}
+
+	/**
+	 * 
+	 * @return la zone de saisi du code Rne de l'etablissement<br/>
+	 */
+	public TextField getRneTextField() {
+
+		if (rne == null) {
+			rne = new TextField();
+			rne.setWidth(35, Unit.EM);
+			rne.setCaption("Code Rne");
+			rne.setInputPrompt("Saisir le code Rne de l'établissement scolaire");
+		}
+
+		return rne;
 	}
 
 	public Button getOkButton() {
@@ -78,28 +98,27 @@ public class WindowRepertoire extends Window implements AlertListener {
 				try {
 
 					// prend la valeur du code rne saisi et cree un repetoire<br/>
-					getXMLImportView().setRne();
-					getXMLImportView().setPathFolder();
+					RneImport.getRne(getRneTextField().getValue());
+					RneImport.CreateDirectories();
 
-					// verifie si le repertoire existe si non cree
-					File file = new File(getXMLImportView().getPathFolder().toString());
-					if (!file.exists()) {
-						Files.createDirectories(getXMLImportView().getPathFolder());
-						System.out.println("Repertoire créé " + getXMLImportView().getPathFolder().toString());
-					}
+				} catch (IOException ioe) {
 
 					getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
-							.addWindow(new AlertWindow("message !!!",
-									"Vos fichiers vont être importer dans le répertoire " + getXMLImportView().getRne(),
-									new String[] { "Suite" }, WindowRepertoire.this).show());
-
-					close();
+							.addWindow(new AlertWindow("Erreur !!!", ioe.getMessage()).show());
+					ioe.printStackTrace(System.out);
 
 				} catch (Exception e) {
 					getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
 							.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());
 					e.printStackTrace(System.out);
 				}
+
+				getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
+						.addWindow(new AlertWindow("message !!!",
+								"Vos fichiers vont être importer dans le répertoire " + RneImport.getRne(),
+								new String[] { "Suite" }, WindowRepertoire.this).show());
+
+				close();
 
 			}
 		});
@@ -126,7 +145,7 @@ public class WindowRepertoire extends Window implements AlertListener {
 	public void buttonClick(String button) {
 		if (button.equals("Suite")) {
 			getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
-					.addWindow(new WindowImport(new ChoiseImport(getXMLImportView()), "Valider"));
+					.addWindow(new WindowImport(new ChoiseImport(getXMLImportView())));
 		}
 
 		close();
