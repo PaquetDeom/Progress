@@ -75,7 +75,7 @@ public class SiecleImport extends VerticalLayout implements SucceededListener {
 
 				} else {
 
-					File file = new File(getXmlView().getPathSiecleFolder().toString() + "/" + filename);
+					File file = new File(RneImport.getPathFolder().toString() + "/" + filename);
 
 					try {
 						file.createNewFile();
