@@ -14,10 +14,12 @@ public class ChoiseImport extends VerticalLayout {
 	 */
 	private static final long serialVersionUID = 1L;
 	private XMLImportView xmlView = null;
+	private RneImport rneImport = null;
 
-	public ChoiseImport(XMLImportView xml) {
+	public ChoiseImport(XMLImportView xml, RneImport rneImport) {
 		super();
 		setXMLImportView(xml);
+		setRneImport(rneImport);
 
 		// construction du layout
 		setSizeFull();
@@ -46,7 +48,7 @@ public class ChoiseImport extends VerticalLayout {
 				try {
 
 					getXmlView().getXMLImportViewPanelContent().getUI().getUI()
-							.addWindow(new WindowImport(new SiecleImport(getXmlView())));
+							.addWindow(new WindowImport(new SiecleImport(getXmlView(), getRneImport())));
 				} catch (Exception e) {
 					getXmlView().getXMLImportViewPanelContent().getUI().getUI()
 							.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());
@@ -69,9 +71,9 @@ public class ChoiseImport extends VerticalLayout {
 			public void buttonClick(ClickEvent event) {
 
 				try {
-
+/**
 					getXmlView().getXMLImportViewPanelContent().getUI().getUI()
-							.addWindow(new WindowImport(new EdtImport(getXmlView())));
+							.addWindow(new WindowImport(new EdtImport(getXmlView())));*/
 
 				} catch (Exception e) {
 					getXmlView().getXMLImportViewPanelContent().getUI().getUI()
@@ -92,6 +94,14 @@ public class ChoiseImport extends VerticalLayout {
 
 	private XMLImportView getXmlView() {
 		return xmlView;
+	}
+
+	private RneImport getRneImport() {
+		return rneImport;
+	}
+
+	private void setRneImport(RneImport rneImport) {
+		this.rneImport = rneImport;
 	}
 
 }

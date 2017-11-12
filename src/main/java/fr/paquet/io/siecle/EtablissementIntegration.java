@@ -36,5 +36,4 @@ public class EtablissementIntegration extends SiecleIntegration {
 			new Exception("Les list sont trop longues");
 
 	}
-
 }

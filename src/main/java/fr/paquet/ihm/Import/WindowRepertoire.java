@@ -1,8 +1,6 @@
 package fr.paquet.ihm.Import;
 
-
 import java.io.IOException;
-
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
@@ -20,6 +18,7 @@ public class WindowRepertoire extends Window implements AlertListener {
 
 	private XMLImportView XMLIV = null;
 	private TextField rne = null;
+	private RneImport rneImport = null;
 
 	/**
 	 * constructeur de la Window<br/>
@@ -95,28 +94,22 @@ public class WindowRepertoire extends Window implements AlertListener {
 			@Override
 			public void buttonClick(ClickEvent event) {
 
+				// prend la valeur du code rne saisi et le passe a rneImport<br/>
 				try {
 
-					// prend la valeur du code rne saisi et cree un repetoire<br/>
-					RneImport.getRne(getRneTextField().getValue());
-					RneImport.CreateDirectories();
-
-				} catch (IOException ioe) {
-
+					rneImport = RneImport.getRneImport(getRneTextField().getValue());
 					getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
-							.addWindow(new AlertWindow("Erreur !!!", ioe.getMessage()).show());
-					ioe.printStackTrace(System.out);
+							.addWindow(new AlertWindow("message !!!",
+									"Vos fichiers vont être importer dans le répertoire "
+											+ rneImport.getRne(),
+									new String[] { "Suite" }, WindowRepertoire.this).show());
 
 				} catch (Exception e) {
 					getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
 							.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());
-					e.printStackTrace(System.out);
+					close();
+					e.printStackTrace();
 				}
-
-				getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
-						.addWindow(new AlertWindow("message !!!",
-								"Vos fichiers vont être importer dans le répertoire " + RneImport.getRne(),
-								new String[] { "Suite" }, WindowRepertoire.this).show());
 
 				close();
 
@@ -145,7 +138,7 @@ public class WindowRepertoire extends Window implements AlertListener {
 	public void buttonClick(String button) {
 		if (button.equals("Suite")) {
 			getXMLImportView().getXMLImportViewPanelContent().getUI().getUI()
-					.addWindow(new WindowImport(new ChoiseImport(getXMLImportView())));
+					.addWindow(new WindowImport(new ChoiseImport(getXMLImportView(), rneImport)));
 		}
 
 		close();

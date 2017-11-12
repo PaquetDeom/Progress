@@ -42,7 +42,7 @@ public class EdtIntegration {
 	 */
 	private static File getProfesseur() {
 		if (EXP_PROFESSEURFile == null)
-			EXP_PROFESSEURFile = new File("./EDT/0310053P/EXP_PROFESSEUR.xml");
+			EXP_PROFESSEURFile = new File("./EDT/0310053P/EDT/EXP_PROFESSEUR.xml");
 		return EXP_PROFESSEURFile;
 	}
 
@@ -52,7 +52,7 @@ public class EdtIntegration {
 	 */
 	private static File getEleve() {
 		if (EXP_ELEVEFile == null)
-			EXP_ELEVEFile = new File("./EDT/0310053P/EXP_ELEVE.xml");
+			EXP_ELEVEFile = new File("./EDT/0310053P/EDT/EXP_ELEVE.xml");
 		return EXP_ELEVEFile;
 	}
 
@@ -62,7 +62,7 @@ public class EdtIntegration {
 	 */
 	private static File getMatiere() {
 		if (EXP_MATIEREFile == null)
-			EXP_MATIEREFile = new File("./EDT/0310053P/EXP_MATIERE.xml");
+			EXP_MATIEREFile = new File("./EDT/0310053P/EDT/EXP_MATIERE.xml");
 		return EXP_MATIEREFile;
 	}
 

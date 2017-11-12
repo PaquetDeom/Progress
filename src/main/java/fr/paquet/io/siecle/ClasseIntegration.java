@@ -14,7 +14,6 @@ import fr.paquet.io.RecursiveNodes;
 public class ClasseIntegration extends SiecleIntegration {
 
 	public static void CreateClasse() {
-
 		ArrayList<Element> list = new ArrayList<Element>();
 		ArrayList<Element> list1 = new ArrayList<Element>();
 		try {
@@ -32,9 +31,6 @@ public class ClasseIntegration extends SiecleIntegration {
 		for (Element elt : list) {
 
 			new ClasseFactory(elt, list1.get(0).getTextContent());
-
 		}
-
 	}
-
 }

@@ -12,7 +12,8 @@ import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-public class EdtImport extends VerticalLayout implements SucceededListener {
+public class EdtImport extends VerticalLayout {
+	/**
 
 	private XMLImportView xmlView = null;
 
@@ -72,5 +73,5 @@ public class EdtImport extends VerticalLayout implements SucceededListener {
 		// TODO Auto-generated method stub
 
 	}
-
+*/
 }

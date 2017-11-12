@@ -34,5 +34,4 @@ public class EleveIntegration extends SiecleIntegration {
 		}
 
 	}
-
 }

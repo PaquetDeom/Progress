@@ -1,12 +1,16 @@
 package fr.paquet.ihm.Import;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -14,84 +18,26 @@ import java.util.regex.Pattern;
 
 import com.vaadin.server.VaadinService;
 
+import fr.paquet.ihm.AlertWindow;
+import fr.paquet.ihm.Import.SiecleImport.DocumentCheckbox;
+import fr.paquet.io.siecle.SiecleIntegration;
+
 public class RneImport {
 
-	/**
-	 * @author Nathanaël
-	 * 
-	 *         Classe qui gere la creation des Files par code Rne
-	 *         D'etablissement<br/>
-	 */
-
-	private static List<File> files = new ArrayList<File>();
-	private static boolean communs = false;
-	private static boolean eleveAvecAdresse = false;
-	private static boolean etablissements = false;
-	private static boolean geographique = false;
-	private static boolean nomenclature = false;
-	private static boolean structures = false;
-	private static boolean siecle = false;
-
-	private static boolean EXP_PROFESSEURF = false;
-	private static boolean EXP_MATIERE = false;
-	private static boolean EXP_ELEVE = false;
-	private static boolean edt = false;
+	public interface RneChangedListener {
+		public void rneChanged();
+	}
 
 	private static Hashtable<String, RneImport> listRneImport = new Hashtable<String, RneImport>();
-	private static String rne = null;
-
 	private static Path pathFolder = null;
 
-	public RneImport(String value) throws Exception {
+	private String rne = null;
 
-		// verifie la syntaxe de rne
-		// creer le path a partir du code rne
-		setRne(value);
-		setPathFolder();
-
-		// recherche si le repertoire RNE EXISTE
-		// si non ==> on créer le repertoire
-		if (getRne(getRne()) == null) {
-			CreateDirectories();
-		}
-
-		else {
-			// si oui, on lit la liste des fichiers déja présent dans le répertoire et on
-			// les marque comme chargés
-			DirectoryContaint(getPathFolder());
-			SetCharged();
-		}
-
+	private RneImport(String codeRne) throws Exception {
+		setRne(codeRne);
 	}
 
-	private static void SetCharged() {
-
-		for (int i = 0; i < getFiles().size(); i++) {
-			File file = getFiles().get(0);
-			if (file.toString().equals("Communs.xml"))
-				setCommuns(true);
-			if (file.toString().equals("EleveAvecAdresse.xml"))
-				setEleveAvecAdresse(true);
-			if (file.toString().equals("Etablissements.xml"))
-				setEtablissements(true);
-			if (file.toString().equals("Geographique.xml"))
-				setGeographique(true);
-			if (file.toString().equals("Nomenclature.xml"))
-				setNomenclature(true);
-			if (file.toString().equals("Structures.xml"))
-				setStructures(true);
-			if (file.toString().equals("EXP_PROFESSEUR.xml"))
-				setEXP_PROFESSEURF(true);
-			if (file.toString().equals("EXP_MATIERE.xml"))
-				setEXP_MATIERE(true);
-			if (file.toString().equals("EXP_ELEVE.xml"))
-				setEXP_ELEVE(true);
-
-		}
-
-	}
-
-	public static void setRne(String rne) throws Exception {
+	private void setRne(String rne) throws Exception {
 
 		// test si la valeur est nulle ou vide
 		if (rne == null || rne.equals(""))
@@ -103,44 +49,53 @@ public class RneImport {
 		if (a == false)
 			throw new Exception("Code Rne invalide");
 
-		RneImport.rne = rne;
+		this.rne = rne;
 	}
 
 	/**
 	 * 
 	 * @return le code rne saisi par l'operateur<br/>
 	 */
-	public static String getRne() {
-
+	public String getRne() {
 		return rne;
-	}
-
-	public static void setPathFolder() {
-
-		pathFolder = Paths
-				.get(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() + "/fileFolder/" + getRne());
-
 	}
 
 	/**
 	 * 
 	 * @return Le répertoire d'accueil des fichiers Siecle et EDT<br/>
 	 */
-	public static Path getPathFolder() {
-
-		return pathFolder;
+	private static Path getPathFolder() {
+		return Paths.get(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() + "/fileFolder/");
 	}
 
-	public static void CreateDirectories() throws IOException {
+	/**
+	 * 
+	 * @return le chemin d'accés au repertoire d'import<br/>
+	 * @throws Exception
+	 *             rne ne correspond pas à la regexp<br/>
+	 */
+	public Path getPathFolderImport() throws Exception {
+		Path path = Paths.get(getPathFolder().toString() + "/" + getRne() + "/");
+		return path;
+	}
+
+	public void createDirectories() throws Exception {
 
 		// verifie si le repertoire existe si non cree
-		File file = new File(getPathFolder().toString());
+		File file = new File(getPathFolder().toString() + "/" + getRne());
 		if (!file.exists()) {
-			Files.createDirectories(getPathFolder());
-			System.out.println("Repertoire créé " + getPathFolder().toString());
-		} else {
-			DirectoryContaint(getPathFolder());
+			Files.createDirectories(getPathFolderImport());
+			System.out.println("Repertoire créé " + getPathFolderImport().toString());
 		}
+	}
+
+	private static RneImport getRNEImportFromDirectory(String codeRNEE) throws Exception {
+		RneImport rne = new RneImport(codeRNEE);
+		// verifie si le repertoire existe si non cree
+		File rneDirectory = new File(getPathFolder().toString() + "/" + codeRNEE);
+		if (!rneDirectory.exists())
+			rne.createDirectories();
+		return rne;
 	}
 
 	/**
@@ -151,136 +106,120 @@ public class RneImport {
 	 * @throws Exception
 	 *             rne ne correspond pas a la regexp<br/>
 	 */
-	public static RneImport getRne(String value) throws Exception {
-		// recherche dans le tableau si le RNEImport existe
-		RneImport rne = listRneImport.get(value);
+	public static RneImport getRneImport(String codeRNE) throws Exception {
+		// recherche dans le la liste des RNEImport chargés si le RNEImport existe
+		RneImport rne = listRneImport.get(codeRNE);
+
+		// s'il n'existe pas
 		if (rne == null) {
-			rne = new RneImport(value);
-			listRneImport.put(value, rne);
+			// On le charge à partir du répertoire
+			rne = getRNEImportFromDirectory(codeRNE);
 		}
 		return rne;
 	}
 
-	public static void DirectoryContaint(Path path) throws IOException {
-
-		DirectoryStream<Path> stream = Files.newDirectoryStream(path);
+	public ArrayList<XMLDocuments> getDirectoryContaint() throws Exception {
+		ArrayList<XMLDocuments> directoryContaint = new ArrayList<XMLDocuments>();
+		DirectoryStream<Path> stream = Files.newDirectoryStream(getPathFolderImport(), "*.xml");
 		try {
 			Iterator<Path> iterator = stream.iterator();
 			while (iterator.hasNext()) {
 				Path p = iterator.next();
-				addFile(p.toFile());
-				System.out.println(p);
+				for (XMLDocuments doc : EnumSet.allOf(XMLDocuments.class)) {
+					if (p.toFile().getName().toUpperCase().equals(doc.fileName().toUpperCase()))
+						directoryContaint.add(doc);
+				}
 			}
 		} finally {
 			stream.close();
 		}
+		return directoryContaint;
+	}
 
+	public Boolean hasDocument(XMLDocuments doc) throws Exception {
+		return getDirectoryContaint().contains(doc);
+	}
+
+	public boolean addDocument(File file) {
+		XMLDocuments doc = XMLDocuments.getDocument(file.getName());
+		return (doc != null);
+	}
+
+	public void deleteFile(String fileName) throws Exception {
+
+		Path path = Paths.get(getPathFolderImport().toString() + fileName);
+
+		try {
+
+			Files.delete(path);
+
+		} catch (NoSuchFileException nsfe) {
+			nsfe.printStackTrace();
+			System.err.println("Fichier ou repertoire " + path + " n'existe pas");
+
+		} catch (DirectoryNotEmptyException dnee) {
+			dnee.printStackTrace();
+			System.err.println("Le repertoire " + path + " n'est pas vide");
+
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			System.err.println("Impossible de supprimer " + path + " : " + ioe);
+
+		}
+
+	}
+
+	// ** ajout du fichier dans la liste des fichiers si et seulement si le fichier
+	// est autorisé
+	public File createFile(String fileName) throws Exception {
+		// recupéré le code document si autorisé
+		XMLDocuments doc = XMLDocuments.getDocument(fileName);
+		if (doc == null)
+			throw (new Exception("Fichier non admis !!"));
+		File file = getFile(fileName);
+		file.createNewFile();
+		System.out.println("Creation du fichier " + file.getAbsolutePath());
+		fireChangeEvent();
+		return file;
+	}
+
+	private void fireChangeEvent() {
+		for (RneChangedListener listener : listeners) {
+			listener.rneChanged();
+		}
 	}
 
 	/**
+	 * verifie le fichier telecharger, cad : vérifier que le code RNE du fichier est
+	 * bien le code RNE du repertoire vérifier que la date d'export est la date
+	 * d'export du RNE actuel renvoie vrai si les 2 conditions sont remplies, faux
+	 * sinon.
 	 * 
-	 * @return les files contenues dans le repertoire<br/>
+	 * @param fileName
 	 */
-	private static List<File> getFiles() {
-		if (files == null)
-			files = new ArrayList<File>();
-		return files;
+	public boolean checkFile(String fileName) throws Exception {
+		File file = getFile(fileName);
+		String codeRNE = SiecleIntegration.getCodeRNE(file);
+		return codeRNE.equals(getRne());
 	}
 
-	private static void addFile(File file) {
-		getFiles().add(file);
+	private File getFile(String fileName) throws Exception {
+		return new File(getPathFolderImport().toString() + "/" + fileName);
 	}
 
-	public static boolean isCommuns() {
-		return communs;
+	ArrayList<RneChangedListener> listeners = null;
+
+	public void addChangeListener(RneChangedListener documentCheckbox) {
+		if (listeners == null)
+			listeners = new ArrayList<RneChangedListener>();
+		listeners.add(documentCheckbox);
 	}
 
-	private static void setCommuns(boolean communs) {
-		RneImport.communs = communs;
+	public boolean isAllLoaded() throws Exception {
+		for (XMLDocuments doc : EnumSet.allOf(XMLDocuments.class)) {
+			if (!hasDocument(doc))
+				return false;
+		}
+		return true;
 	}
-
-	public static boolean isEleveAvecAdresse() {
-		return eleveAvecAdresse;
-	}
-
-	private static void setEleveAvecAdresse(boolean eleveAvecAdresse) {
-		RneImport.eleveAvecAdresse = eleveAvecAdresse;
-	}
-
-	public static boolean isEtablissements() {
-		return etablissements;
-	}
-
-	private static void setEtablissements(boolean etablissements) {
-		RneImport.etablissements = etablissements;
-	}
-
-	public static boolean isGeographique() {
-		return geographique;
-	}
-
-	private static void setGeographique(boolean geographique) {
-		RneImport.geographique = geographique;
-	}
-
-	public static boolean isNomenclature() {
-		return nomenclature;
-	}
-
-	private static void setNomenclature(boolean nomenclature) {
-		RneImport.nomenclature = nomenclature;
-	}
-
-	public static boolean isStructures() {
-		return structures;
-	}
-
-	private static void setStructures(boolean structures) {
-		RneImport.structures = structures;
-	}
-
-	public static boolean isSiecle() {
-
-		if (isCommuns() && isEleveAvecAdresse() && isEtablissements() && isGeographique() && isNomenclature()
-				&& isStructures())
-			siecle = true;
-		else
-			siecle = false;
-		return siecle;
-	}
-
-	public static boolean isEXP_PROFESSEURF() {
-		return EXP_PROFESSEURF;
-	}
-
-	private static void setEXP_PROFESSEURF(boolean eXP_PROFESSEURF) {
-		EXP_PROFESSEURF = eXP_PROFESSEURF;
-	}
-
-	public static boolean isEXP_MATIERE() {
-		return EXP_MATIERE;
-	}
-
-	private static void setEXP_MATIERE(boolean eXP_MATIERE) {
-		EXP_MATIERE = eXP_MATIERE;
-	}
-
-	public static boolean isEXP_ELEVE() {
-		return EXP_ELEVE;
-	}
-
-	private static void setEXP_ELEVE(boolean eXP_ELEVE) {
-		EXP_ELEVE = eXP_ELEVE;
-	}
-
-	public static boolean isEdt() {
-
-		if (isEXP_ELEVE() && isEXP_MATIERE() && isEXP_PROFESSEURF())
-			edt = true;
-		else
-			edt = false;
-
-		return edt;
-	}
-
 }

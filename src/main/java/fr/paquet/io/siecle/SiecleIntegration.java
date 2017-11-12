@@ -14,6 +14,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import fr.paquet.io.RecursiveNodes;
+
 public class SiecleIntegration {
 
 	/**
@@ -49,6 +51,19 @@ public class SiecleIntegration {
 	private static Element NomenclatureRoot = null;
 
 	private static Element StructuresRoot = null;
+
+	public static String getCodeRNE(File file) throws Exception {
+		Document doc=getDocumentBuilder().parse(file);
+		return getCodeRNE(doc);
+	}
+	
+	public static String getCodeRNE(Document document) throws Exception {
+		ArrayList<Element> list = new ArrayList<Element>();
+		RecursiveNodes.getNodes(document.getDocumentElement(), list, "PARAMETRES");
+		String exp1 = "UAJ";
+		String rne = list.get(0).getElementsByTagName(exp1).item(0).getTextContent();
+		return rne;
+	}
 
 	/**
 	 * 
