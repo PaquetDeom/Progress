@@ -1,6 +1,7 @@
 package fr.paquet.io.edt;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,11 +14,11 @@ import fr.paquet.io.RecursiveNodes;
 
 public class ProfesseurIntegration extends EdtIntegration {
 
-	public static void CreateProfesseur() {
+	public static void CreateProfesseur(Path path) {
 
 		ArrayList<Element> list = new ArrayList<Element>();
 		try {
-			RecursiveNodes.getNodes(getProfesseurDocument().getDocumentElement(), list, "Professeurs");
+			RecursiveNodes.getNodes(getProfesseurDocument(path).getDocumentElement(), list, "Professeurs");
 
 		} catch (SAXException e) {
 			e.printStackTrace();

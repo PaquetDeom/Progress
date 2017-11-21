@@ -1,6 +1,7 @@
 package fr.paquet.io.edt;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,11 +18,11 @@ import fr.paquet.io.RecursiveNodes;
 
 public class AffectEleve extends EdtIntegration {
 
-	public static void AffectClasse() {
+	public static void AffectClasse(Path path) {
 
 		ArrayList<Element> list = new ArrayList<Element>();
 		try {
-			RecursiveNodes.getNodes(getEleveDocument().getDocumentElement(), list, "Eleves");
+			RecursiveNodes.getNodes(getEleveDocument(path).getDocumentElement(), list, "Eleves");
 
 		} catch (SAXException e) {
 			e.printStackTrace();

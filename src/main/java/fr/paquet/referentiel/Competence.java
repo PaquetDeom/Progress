@@ -19,8 +19,8 @@ import javax.persistence.Table;
  * 
  *         La classe competence represente une competence du referentiel de
  *         l'education <br/>
- *         mode d'utilisation : new Competence("C2.5", "Etablir et representer "
- *         )
+ *         mode d'utilisation : new Competence("C2.5", "Etablir et representer")
+ *         
  * 
  */
 @Entity
@@ -84,7 +84,7 @@ public class Competence {
 	 *             si le code est �gale � 0
 	 */
 
-	public Competence(Capacite cap, Unite unt, int UnCode, String UnIntitule) throws Exception {
+	public Competence(Capacite cap, Unite unt, int UnCode, String UnIntitule) throws Exception  {
 
 		this();
 		setCode(UnCode);

@@ -1,15 +1,11 @@
 package fr.paquet.ihm.Import;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import java.util.EnumSet;
 
-import com.gargoylesoftware.htmlunit.javascript.host.xml.XMLDocument;
-import com.google.gwt.resources.css.InterfaceGenerator;
-import com.vaadin.client.ui.upload.UploadConnector;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -26,7 +22,7 @@ import fr.paquet.io.IntegrationMain;
 
 import com.vaadin.ui.VerticalLayout;
 
-@SuppressWarnings("serial") 
+@SuppressWarnings("serial")
 public class SiecleImport extends VerticalLayout implements SucceededListener {
 
 	class ButtonIntegration extends Button implements RneImport.RneChangedListener, Button.ClickListener {
@@ -40,7 +36,9 @@ public class SiecleImport extends VerticalLayout implements SucceededListener {
 				setEnabled(rne.isAllLoaded());
 				addClickListener(this);
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
+				getXmlView().getXMLImportViewPanelContent().getUI().getUI()
+						.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());
 			}
 		}
 
@@ -52,13 +50,20 @@ public class SiecleImport extends VerticalLayout implements SucceededListener {
 			try {
 				setEnabled(rne.isAllLoaded());
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
+				getXmlView().getXMLImportViewPanelContent().getUI().getUI()
+						.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());
 			}
 		}
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			IntegrationMain.main(null);
+
+			// TODO : Affichage de la ProgressBar
+
+			// Integration des *.xml dans la base
+			new IntegrationMain(getRneImport());
+
 		}
 	}
 
@@ -75,7 +80,9 @@ public class SiecleImport extends VerticalLayout implements SucceededListener {
 				setValue(rne.hasDocument(document));
 				setEnabled(false);
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
+				getXmlView().getXMLImportViewPanelContent().getUI().getUI()
+						.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());
 			}
 		}
 
@@ -175,6 +182,7 @@ public class SiecleImport extends VerticalLayout implements SucceededListener {
 			DocumentCheckbox checkboxDoc = new DocumentCheckbox(getRneImport(), doc);
 			layout1.addComponent(checkboxDoc);
 		}
+
 		layout1.addComponent(new ButtonIntegration(getRneImport()));
 		this.layout1 = layout1;
 	}
@@ -205,25 +213,6 @@ public class SiecleImport extends VerticalLayout implements SucceededListener {
 					.addWindow(new AlertWindow("Erreur !!!", e.getMessage()).show());
 			e.printStackTrace();
 		}
-
-		/**
-		 * ArrayList<Element> list = new ArrayList<Element>();
-		 * 
-		 * 
-		 * try {
-		 * 
-		 * RecursiveNodes.getNodes(SiecleIntegration.getCommunsDocument().getDocumentElement(),
-		 * list, "PARAMETRES");
-		 * 
-		 * } catch (SAXException e) { e.printStackTrace(); } catch (IOException e) {
-		 * e.printStackTrace(); } catch (ParserConfigurationException e) {
-		 * e.printStackTrace(); }
-		 * 
-		 * String exp1 = "UAJ"; String rne =
-		 * list.get(0).getElementsByTagName(exp1).item(0).getTextContent(); String exp2
-		 * = "DATE_EXPORT"; String dateExport =
-		 * list.get(0).getElementsByTagName(exp2).item(0).getTextContent();
-		 */
 
 	}
 }

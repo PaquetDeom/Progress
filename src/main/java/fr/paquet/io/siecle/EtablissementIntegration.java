@@ -1,6 +1,7 @@
 package fr.paquet.io.siecle;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,14 +14,14 @@ import fr.paquet.io.RecursiveNodes;
 
 public class EtablissementIntegration extends SiecleIntegration {
 
-	public static void CreateEtablissement() throws Exception {
+	public static void CreateEtablissement(Path path) throws Exception {
 
 		ArrayList<Element> list = new ArrayList<Element>();
 		ArrayList<Element> list1 = new ArrayList<Element>();
 
 		try {
-			RecursiveNodes.getNodes(getCommunsDocument().getDocumentElement(), list, "PARAMETRES");
-			RecursiveNodes.getNodes(getCommunsDocument().getDocumentElement(), list1, "DONNEES");
+			RecursiveNodes.getNodes(getCommunsDocument(path).getDocumentElement(), list, "PARAMETRES");
+			RecursiveNodes.getNodes(getCommunsDocument(path).getDocumentElement(), list1, "DONNEES");
 
 		} catch (SAXException e) {
 			e.printStackTrace();

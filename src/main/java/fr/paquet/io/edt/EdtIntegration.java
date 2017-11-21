@@ -2,6 +2,7 @@ package fr.paquet.io.edt;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -40,9 +41,9 @@ public class EdtIntegration {
 	 * 
 	 * @return le Fichier EXP_PROFESSEUR.xml<br/>
 	 */
-	private static File getProfesseur() {
+	private static File getProfesseur(Path path) {
 		if (EXP_PROFESSEURFile == null)
-			EXP_PROFESSEURFile = new File("./EDT/0310053P/EDT/EXP_PROFESSEUR.xml");
+			EXP_PROFESSEURFile = new File(path + "/" + "EXP_PROFESSEUR.xml");
 		return EXP_PROFESSEURFile;
 	}
 
@@ -50,9 +51,9 @@ public class EdtIntegration {
 	 * 
 	 * @return le Fichier EXP_ELEVE.xml<br/>
 	 */
-	private static File getEleve() {
+	private static File getEleve(Path path) {
 		if (EXP_ELEVEFile == null)
-			EXP_ELEVEFile = new File("./EDT/0310053P/EDT/EXP_ELEVE.xml");
+			EXP_ELEVEFile = new File(path + "/" + "EXP_ELEVE.xml");
 		return EXP_ELEVEFile;
 	}
 
@@ -73,9 +74,9 @@ public class EdtIntegration {
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public static Document getEleveDocument() throws SAXException, IOException, ParserConfigurationException {
+	public static Document getEleveDocument(Path path) throws SAXException, IOException, ParserConfigurationException {
 		if (EXP_ELEVEDocument == null)
-			EXP_ELEVEDocument = getDocumentBuilder().parse(getEleve());
+			EXP_ELEVEDocument = getDocumentBuilder().parse(getEleve(path));
 		return EXP_ELEVEDocument;
 	}
 
@@ -86,9 +87,10 @@ public class EdtIntegration {
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public static Document getProfesseurDocument() throws SAXException, IOException, ParserConfigurationException {
+	public static Document getProfesseurDocument(Path path)
+			throws SAXException, IOException, ParserConfigurationException {
 		if (EXP_PROFESSEURDocument == null)
-			EXP_PROFESSEURDocument = getDocumentBuilder().parse(getProfesseur());
+			EXP_PROFESSEURDocument = getDocumentBuilder().parse(getProfesseur(path));
 		return EXP_PROFESSEURDocument;
 	}
 
@@ -112,12 +114,12 @@ public class EdtIntegration {
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public static Element getEleveRoot() throws SAXException, IOException, ParserConfigurationException {
+	public static Element getEleveRoot(Path path) throws SAXException, IOException, ParserConfigurationException {
 		if (EXP_ELEVERoot == null)
-			EXP_ELEVERoot = getEleveDocument().getDocumentElement();
+			EXP_ELEVERoot = getEleveDocument(path).getDocumentElement();
 		return EXP_ELEVERoot;
 	}
-	
+
 	/**
 	 * 
 	 * @return L'Element issus de EXP_PROFESSEUR.xml<br/>
@@ -125,9 +127,9 @@ public class EdtIntegration {
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public static Element getProfesseurRoot() throws SAXException, IOException, ParserConfigurationException {
+	public static Element getProfesseurRoot(Path path) throws SAXException, IOException, ParserConfigurationException {
 		if (EXP_PROFESSEURRoot == null)
-			EXP_PROFESSEURRoot = getProfesseurDocument().getDocumentElement();
+			EXP_PROFESSEURRoot = getProfesseurDocument(path).getDocumentElement();
 		return EXP_PROFESSEURRoot;
 	}
 

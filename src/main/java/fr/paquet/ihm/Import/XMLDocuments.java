@@ -6,7 +6,7 @@ import fr.paquet.io.siecle.ClasseIntegration;
 import fr.paquet.io.siecle.EleveIntegration;
 import fr.paquet.io.siecle.EtablissementIntegration;
 import fr.paquet.io.siecle.GeographieIntegration;
-import fr.paquet.io.siecle.SiecleIntegration;
+import fr.paquet.io.siecle.RneIntegration;
 
 public enum XMLDocuments {
 	COMMUN, eleveAvecAdresse, etablissements, geographique, nomenclature, structures, EXP_PROFESSEUR, EXP_MATIERE, EXP_ELEVE;

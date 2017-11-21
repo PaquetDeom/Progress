@@ -1,6 +1,7 @@
 package fr.paquet.io.siecle;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,14 +14,14 @@ import fr.paquet.io.RecursiveNodes;
 
 public class ProviseurIntegration extends SiecleIntegration {
 
-	public static void CreateProviseur() {
+	public static void CreateProviseur(Path path) {
 
 		ArrayList<Element> list = new ArrayList<Element>();
 		ArrayList<Element> list1 = new ArrayList<Element>();
 		ArrayList<Element> list2 = new ArrayList<Element>();
 		try {
-			RecursiveNodes.getNodes(getCommunsDocument().getDocumentElement(), list, "PARAMETRES");
-			RecursiveNodes.getNodes(getCommunsDocument().getDocumentElement(), list1, "UAJ");
+			RecursiveNodes.getNodes(getCommunsDocument(path).getDocumentElement(), list, "PARAMETRES");
+			RecursiveNodes.getNodes(getCommunsDocument(path).getDocumentElement(), list1, "UAJ");
 			
 			for(Element elt1 : list1){
 				if(elt1 == list.get(0).getElementsByTagName("UAJ").item(0))

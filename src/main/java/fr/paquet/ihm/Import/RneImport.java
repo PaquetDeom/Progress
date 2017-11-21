@@ -1,7 +1,6 @@
 package fr.paquet.ihm.Import;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.DirectoryStream;
@@ -13,14 +12,11 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import com.vaadin.server.VaadinService;
 
-import fr.paquet.ihm.AlertWindow;
-import fr.paquet.ihm.Import.SiecleImport.DocumentCheckbox;
-import fr.paquet.io.siecle.SiecleIntegration;
+import fr.paquet.io.siecle.RneIntegration;
 
 public class RneImport {
 
@@ -199,7 +195,7 @@ public class RneImport {
 	 */
 	public boolean checkFile(String fileName) throws Exception {
 		File file = getFile(fileName);
-		String codeRNE = SiecleIntegration.getCodeRNE(file);
+		String codeRNE = RneIntegration.getCodeRNE(file);
 		return codeRNE.equals(getRne());
 	}
 
