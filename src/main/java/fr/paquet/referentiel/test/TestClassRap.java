@@ -18,10 +18,10 @@ public class TestClassRap {
 	public void testgetDb() {
 		try {
 
-			Diplome dip = new DiplomeFactory(Connect.getEmf().createEntityManager()).findDiplome("BAC PRO",
+			Diplome dip = new DiplomeFactory().findDiplome("BAC PRO",
 					"TECHNICIEN CONSTRUCTEUR BOIS");
 
-			Referentiel ref = new ReferentielFactory(Connect.getEmf().createEntityManager()).findReferentiel(dip);
+			Referentiel ref = new ReferentielFactory().findReferentiel(dip);
 
 			Rap rap = ref.getRap();
 

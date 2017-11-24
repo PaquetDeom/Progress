@@ -1,20 +1,13 @@
 package fr.paquet.referentiel;
 
-import javax.persistence.EntityManager;
+
 import javax.persistence.EntityTransaction;
 
-public class SavoirAssocieFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * @author Nathanaël
-	 * 
-	 *         La class est enfant de ProgressFactory()<br/>
-	 */
+public class SavoirAssocieFactory extends Connect {
 
-	public SavoirAssocieFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
+	
 
 	/**
 	 * Sauvegarde de SavoirAssocie()<br/>

@@ -8,9 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.w3c.dom.Element;
+
 @Entity
 @Table(name = "COMMUNE")
-public class Commune {
+public class Commune extends XMLBean {
 
 	/**
 	 * @author Nathanaël
@@ -33,7 +35,13 @@ public class Commune {
 	 * Constructeur vide pour la gestion de la DB<br/>
 	 */
 	public Commune() {
-		super();
+		super(null);
+	}
+	
+	public Commune(Element elt) throws Exception {
+		super(elt);
+		setCodeCommune(elt.getAttribute("CODE_COMMUNE_INSEE"));
+		setCommune(elt.getElementsByTagName("LIBELLE_LONG").item(0).getTextContent());
 	}
 
 	/**

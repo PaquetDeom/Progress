@@ -10,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.w3c.dom.Element;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -17,9 +20,8 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Table(name = "ETABLISSEMENT")
-public class Etablissement {
+public class Etablissement extends XMLBean {
 
-	
 	@Id
 	@Column(name = "ETETID", length = 20)
 	private String codeRNE = null;
@@ -53,8 +55,19 @@ public class Etablissement {
 		setCodeRNE(rne);
 	}
 
+	/**
+	 * Constructeur vide pour la gestion de la DB<br/>
+	 */
 	public Etablissement() {
-		super();
+		super(null);
+	}
+
+	public Etablissement(Element elt) throws Exception {
+		super(elt);
+		//TODO Code RNE
+		setDenominationPrincipale(getStringFromXml("DENOM_PRINC"));
+		setDenominationComplementaire(getStringFromXml("DENOM_COMPL"));
+
 	}
 
 	public void setProviseur(Proviseur proviseur) {
@@ -65,7 +78,6 @@ public class Etablissement {
 		this.codeRNE = rne.trim().toUpperCase();
 
 	}
-
 
 	public void setSigle(String sigle) {
 
@@ -100,15 +112,14 @@ public class Etablissement {
 
 	/**
 	 * 
-	 * @return Le code RNE de l'etablissement sans espace a droite et a gauche
-	 *         et en majuscule<br/>
+	 * @return Le code RNE de l'etablissement sans espace a droite et a gauche et en
+	 *         majuscule<br/>
 	 *         est l'id pour la gestion de la DB<br/>
 	 */
 	public String getCodeRne() {
 		return codeRNE;
 	}
 
-	
 	/**
 	 * 
 	 * @return sigle sans espace a droite et a gauche en majuscule<br/>
@@ -131,8 +142,7 @@ public class Etablissement {
 
 	/**
 	 * 
-	 * @return la denomination complementaire sans espace a droite et a
-	 *         gauche<br/>
+	 * @return la denomination complementaire sans espace a droite et a gauche<br/>
 	 */
 	public String getDenominationComplementaire() {
 		return denominationComplementaire;

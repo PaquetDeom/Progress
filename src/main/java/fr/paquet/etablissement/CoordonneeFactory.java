@@ -8,15 +8,11 @@ import javax.persistence.Query;
 import org.w3c.dom.Element;
 
 import fr.paquet.dataBase.Connect;
-import fr.paquet.referentiel.ProgressFactory;
 
-public class CoordonneeFactory extends ProgressFactory {
 
-	public CoordonneeFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
+public class CoordonneeFactory extends Connect {
 
+	
 	public CoordonneeFactory(Element elt) {
 
 		Load(elt);
@@ -126,7 +122,7 @@ public class CoordonneeFactory extends ProgressFactory {
 			String exp6 = "CODE_COMMUNE_INSEE";
 			if (elt.getElementsByTagName(exp6) != null && elt.getElementsByTagName(exp6).getLength() != 0) {
 				codeCommune = elt.getElementsByTagName(exp6).item(0).getTextContent();
-				com = new CommuneFactory(Connect.getEmf().createEntityManager()).findCommune(codeCommune);
+				com = new CommuneFactory().findCommune(codeCommune);
 				coord.setCommune(com);
 			}
 
@@ -134,12 +130,12 @@ public class CoordonneeFactory extends ProgressFactory {
 			if (elt.getElementsByTagName(exp7).item(0).getTextContent() != null
 					&& elt.getElementsByTagName(exp7).getLength() != 0) {
 				int idCodePays = Integer.parseInt(elt.getElementsByTagName(exp7).item(0).getTextContent());
-				geo = new GeographieFactory(Connect.getEmf().createEntityManager()).find(idCodePays);
+				GeographieFactory.getInstance().find(idCodePays);
 				coord.setGeographie(geo);
 			}
 
-			if (new CoordonneeFactory(Connect.getEmf().createEntityManager()).find(id) == null)
-				new CoordonneeFactory(Connect.getEmf().createEntityManager()).save(coord);
+			if (find(id) == null)
+				save(coord);
 
 			coord = null;
 

@@ -1,19 +1,15 @@
 package fr.paquet.referentiel;
 
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import fr.paquet.commun.Diplome;
+import fr.paquet.dataBase.Connect;
 
-public class ReferentielFactory extends ProgressFactory {
+public class ReferentielFactory extends Connect {
 
-	public ReferentielFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
+	
 	@SuppressWarnings("unchecked")
 	/**
 	 * 

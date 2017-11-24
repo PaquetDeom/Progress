@@ -3,12 +3,14 @@ package fr.paquet.io.siecle;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,6 +21,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import fr.paquet.etablissement.GeographieFactory;
 import fr.paquet.ihm.Import.RneImport;
 import fr.paquet.ihm.Import.XMLDocuments;
 import fr.paquet.io.RecursiveNodes;
@@ -35,6 +38,14 @@ public class RneIntegration {
 	 */
 	private static DocumentBuilderFactory factory = null;
 	private static DocumentBuilder builder = null;
+	private XMLDocuments doc = null;
+	private Path path = null;
+
+	public RneIntegration(XMLDocuments doc, String path) {
+		super();
+		setDoc(doc);
+		setPath(path);
+	}
 
 	/**
 	 * 
@@ -69,20 +80,12 @@ public class RneIntegration {
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public ArrayList<Hashtable<String, Document>> getDocuments()
+	public Document getDocument()
 			throws SAXException, IOException, ParserConfigurationException {
-
-		ArrayList<Hashtable<String, Document>> list = new ArrayList<Hashtable<String, Document>>();
-
-		for (XMLDocuments doc : EnumSet.allOf(XMLDocuments.class)) {
-			Hashtable<String, Document> hash = new Hashtable<String, Document>();
-			File file = new File(doc.fileName());
-			hash.put(doc.fileName(), getDocumentBuilder().parse(file));
-			list.add(hash);
-		}
-
-		return list;
+			File file = new File(getPath().toString());
+			return getDocumentBuilder().parse(file);
 	}
+	
 
 	/**
 	 * 
@@ -106,4 +109,25 @@ public class RneIntegration {
 		return builder;
 	}
 
+	public XMLDocuments getDoc() {
+		return doc;
+	}
+
+	public void setDoc(XMLDocuments doc) {
+		this.doc = doc;
+	}
+
+	public Path getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		Path path0 = Paths.get(path);
+		this.path = path0;
+	}
+
+	public void integre() throws Exception {
+		XMLFileIntegration integrator=doc.getIntegrator().newInstance();
+		integrator.integre();
+	}
 }

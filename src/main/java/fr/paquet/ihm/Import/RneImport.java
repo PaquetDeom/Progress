@@ -33,6 +33,7 @@ public class RneImport {
 		setRne(codeRne);
 	}
 
+	
 	private void setRne(String rne) throws Exception {
 
 		// test si la valeur est nulle ou vide
@@ -217,5 +218,14 @@ public class RneImport {
 				return false;
 		}
 		return true;
+	}
+
+	/**
+	 * cette methode integre l'ensemble des fichiers du RNE
+	 */
+	public void integre() throws Exception {
+		for (XMLDocuments doc : EnumSet.allOf(XMLDocuments.class)) {
+			new RneIntegration(doc, getPathFolderImport() + "/" + doc.fileName()).integre();
+		}
 	}
 }

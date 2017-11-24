@@ -68,7 +68,7 @@ public class SequenceView extends AbsoluteLayout implements ProgView, AlertListe
 	 */
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -233,7 +233,7 @@ public class SequenceView extends AbsoluteLayout implements ProgView, AlertListe
 	private Component getListSequences() {
 
 		if (getProgression() != null) {
-			List<Sequence> seqs = new SequenceFactory(Connect.getEmf().createEntityManager())
+			List<Sequence> seqs = new SequenceFactory()
 					.findSequences(getProgression());
 
 			if (seqs == null || seqs.isEmpty())
@@ -383,7 +383,7 @@ public class SequenceView extends AbsoluteLayout implements ProgView, AlertListe
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				
 
 			}
 		});
@@ -460,7 +460,7 @@ public class SequenceView extends AbsoluteLayout implements ProgView, AlertListe
 	 */
 	public List<Referentiel> getReferentiels() throws Exception {
 		if (referentiels == null)
-			referentiels = new ReferentielFactory(Connect.getEmf().createEntityManager()).findReferentiels();
+			referentiels = new ReferentielFactory().findReferentiels();
 		return referentiels;
 	}
 
@@ -472,7 +472,7 @@ public class SequenceView extends AbsoluteLayout implements ProgView, AlertListe
 	 */
 	public List<Progression> getProgressions() throws Exception {
 		if (progressions == null)
-			progressions = new ProgressionFactory(Connect.getEmf().createEntityManager())
+			progressions = new ProgressionFactory()
 					.findProgressions(getReferentiel());
 
 		return progressions;
@@ -507,7 +507,7 @@ public class SequenceView extends AbsoluteLayout implements ProgView, AlertListe
 
 		titre = getTitreField().getValue();
 
-		List<Sequence> seqs = new SequenceFactory(Connect.getEmf().createEntityManager())
+		List<Sequence> seqs = new SequenceFactory()
 				.findSequences(getProgression());
 
 		for (int i = 0; i < seqs.size(); i++) {
@@ -536,7 +536,7 @@ public class SequenceView extends AbsoluteLayout implements ProgView, AlertListe
 		if (button.equals("Oui")) {
 			if (getSequence() != null) {
 
-				new SequenceFactory(Connect.getEmf().createEntityManager()).remove(getSequence());
+				new SequenceFactory().remove(getSequence());
 				setSequence(null);
 
 				try {

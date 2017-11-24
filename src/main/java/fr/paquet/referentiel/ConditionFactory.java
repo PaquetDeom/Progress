@@ -1,20 +1,12 @@
 package fr.paquet.referentiel;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-public class ConditionFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * La class extends ProgressFactory()<br/>
-	 * 
-	 * @param em
-	 */
-	public ConditionFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
+public class ConditionFactory extends Connect {
 
+	
 	/**
 	 * Sauvegarde d'une condition<br/>
 	 * 

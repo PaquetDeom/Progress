@@ -1,21 +1,12 @@
 package fr.paquet.referentiel;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-public class RapFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * @author Nathanaël
-	 * 
-	 *         La classe est enfant de ProgressFactory()<br/>
-	 */
+public class RapFactory extends Connect {
 
-	public RapFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
+	
 	/**
 	 * Sauvegarde d'un Rap<br/>
 	 */

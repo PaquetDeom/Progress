@@ -1,21 +1,12 @@
 package fr.paquet.referentiel;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-public class CritereEvaluationFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * La class extends CritereEvaluation()<br/>
-	 * 
-	 * @param em
-	 */
+public class CritereEvaluationFactory extends Connect {
 
-	public CritereEvaluationFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
+	
 	/**
 	 * Sauvegarde d'un critere d'evaluation<br/>
 	 * 

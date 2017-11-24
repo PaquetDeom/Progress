@@ -3,18 +3,11 @@ package fr.paquet.referentiel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-public class ActiviteFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * @author Nathanaël
-	 * 
-	 *         La class est enfant de ProgressFactory()<br/>
-	 */
+public class ActiviteFactory extends Connect {
 
-	public ActiviteFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
+
 
 	/**
 	 * Sauvegarde de Activite<br/>

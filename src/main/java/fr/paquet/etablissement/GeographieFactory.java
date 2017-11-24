@@ -11,20 +11,11 @@ import com.ibm.icu.text.SimpleDateFormat;
 
 import fr.paquet.dataBase.Connect;
 
-import fr.paquet.referentiel.ProgressFactory;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class GeographieFactory extends ProgressFactory {
-
-	public GeographieFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-	
-	public GeographieFactory(Element elt){
-		Load(elt);
-	}
+public class GeographieFactory extends Connect {
 
 	/**
 	 * Sauvegarde une geographie<br/>
@@ -45,13 +36,13 @@ public class GeographieFactory extends ProgressFactory {
 			throw (e);
 		}
 	}
-	
-	public Geographie find(long id){
-		
+
+	public Geographie find(long id) {
+
 		Query query = getEm().createQuery("SELECT geo FROM Geographie geo where geo.id_Code_Pays=:paramId");
 		query.setParameter("paramId", id);
 		return (Geographie) query.getSingleResult();
-		
+
 	}
 
 	/**
@@ -78,48 +69,25 @@ public class GeographieFactory extends ProgressFactory {
 	 */
 
 	public void Load(Element elt) {
-
-		Geographie geo = new Geographie();
-		int id_Code_Pays = 0;
-		String libelleCourt = null;
-		String libelleLong = null;
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date dateOuverture = null;
-		Date dateFermeture = null;
-
-		id_Code_Pays = Integer.parseInt(elt.getAttribute("CODE_PAYS"));
-		geo.setId_Code_Pays(id_Code_Pays);
-
-		String exp1 = "LIBELLE_COURT";
-		libelleCourt = elt.getElementsByTagName(exp1).item(0).getTextContent();
-		geo.setLibelle_Court(libelleCourt);
-
-		String exp2 = "LIBELLE_LONG";
-		libelleLong = elt.getElementsByTagName(exp2).item(0).getTextContent();
-		geo.setLibelle_Long(libelleLong);
-
 		try {
-			String exp4 = "DATE_OUVERTURE";
-			String str4 = elt.getElementsByTagName(exp4).item(0).getTextContent();
-			dateOuverture = formatter.parse(str4);
-			geo.setOuverture(dateOuverture);
-
-			String exp5 = "DATE_FERMETURE";
-			String str5 = elt.getElementsByTagName(exp5).item(0).getTextContent();
-			dateFermeture = formatter.parse(str5);
-
-			geo.setFermeture(dateFermeture);
-
-			new GeographieFactory(Connect.getEmf().createEntityManager()).save(geo);
+			save(new Geographie(elt));
 
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 
 			e.printStackTrace();
-
 		}
 
+	}
+
+	private static GeographieFactory uniqInstance = null;
+
+	public static GeographieFactory getInstance() {
+		if (uniqInstance == null) {
+			uniqInstance = new GeographieFactory();
+		}
+		return uniqInstance;
 	}
 
 }

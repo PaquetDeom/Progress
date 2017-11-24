@@ -169,7 +169,7 @@ public class CreationWindow extends Window {
 
 						getProgView().setTitre(getProgView().getTitreField().getValue());
 						Progression prog = new Progression(getProgView().getReferentiel(), getProgView().getTitre());
-						new ProgressionFactory(Connect.getEmf().createEntityManager()).save(prog);
+						new ProgressionFactory().save(prog);
 
 						getProgView().getProgressionViewPanelContent().getUI().getUI().addWindow(new NewProgView(prog));
 

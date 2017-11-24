@@ -10,20 +10,10 @@ import javax.persistence.Query;
 import org.w3c.dom.Element;
 
 import fr.paquet.dataBase.Connect;
-import fr.paquet.referentiel.ProgressFactory;
 
-public class EtablissementFactory extends ProgressFactory {
+public class EtablissementFactory extends Connect {
 
-	public EtablissementFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
-	public EtablissementFactory(Element eltParametre, Element eltDonnee) {
-
-		Load(eltParametre, eltDonnee);
-
-	}
+	private static EtablissementFactory uniqInstance = null;
 
 	/**
 	 * Sauvegarde un etablissement<br/>
@@ -115,38 +105,25 @@ public class EtablissementFactory extends ProgressFactory {
 
 	}
 
-	public void Load(Element eltParametre, Element eltDonnee) {
+	public void Load(Element elt) {
 
 		try {
-
-			Etablissement etab = new Etablissement();
-			String codeRNE = null;
-			String denominationPrincipale = null;
-			String denominationComplementaire = null;
-
-			String exp0 = "UAJ";
-			codeRNE = eltParametre.getElementsByTagName(exp0).item(0).getTextContent();
-			etab.setCodeRNE(codeRNE);
-
-			String exp1 = "DENOM_PRINC";
-			denominationPrincipale = eltDonnee.getElementsByTagName(exp1).item(0).getTextContent();
-			etab.setDenominationPrincipale(denominationPrincipale);
-
-			String exp2 = "DENOM_COMPL";
-			try {
-				denominationComplementaire = eltDonnee.getElementsByTagName(exp2).item(0).getTextContent();
-				etab.setDenominationComplementaire(denominationComplementaire);
-			} catch (NullPointerException e) {
-				denominationComplementaire = null;
-			}
-
-			new EtablissementFactory(Connect.getEmf().createEntityManager()).save(etab);
-			etab = null;
-
+			save(new Etablissement(elt));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * 
+	 * @return l'instance unique de class<br/>
+	 */
+	public static EtablissementFactory getInstance() {
+		if (uniqInstance == null) {
+			uniqInstance = new EtablissementFactory();
+		}
+		return uniqInstance;
 	}
 
 }

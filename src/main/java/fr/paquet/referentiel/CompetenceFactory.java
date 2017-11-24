@@ -1,15 +1,13 @@
 package fr.paquet.referentiel;
 
-import javax.persistence.EntityManager;
+
 import javax.persistence.EntityTransaction;
 
-public class CompetenceFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	public CompetenceFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
+public class CompetenceFactory extends Connect {
 
+	
 	/**
 	 * Sauvegarde une competence<br/>
 	 * 

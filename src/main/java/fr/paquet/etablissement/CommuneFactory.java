@@ -7,19 +7,10 @@ import javax.persistence.Query;
 import org.w3c.dom.Element;
 
 import fr.paquet.dataBase.Connect;
-import fr.paquet.referentiel.ProgressFactory;
 
-public class CommuneFactory extends ProgressFactory {
+public class CommuneFactory extends Connect {
 
-	public CommuneFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
-	public CommuneFactory(Element elt) {
-		Load(elt);
-	}
-	
+	private static CommuneFactory uniqInstance = null;
 
 	/**
 	 * Sauvegarde une commune<br/>
@@ -80,24 +71,21 @@ public class CommuneFactory extends ProgressFactory {
 	public void Load(Element elt) {
 
 		try {
-			Commune com = new Commune();
-			String codeCommune = null;
-			String commune = null;
-
-			codeCommune = elt.getAttribute("CODE_COMMUNE_INSEE");
-			com.setCodeCommune(codeCommune);
-
-			String exp2 = "LIBELLE_LONG";
-			commune = elt.getElementsByTagName(exp2).item(0).getTextContent();
-			com.setCommune(commune);
-
-			new CommuneFactory(Connect.getEmf().createEntityManager()).save(com);
-
-			com = null;
-
+			save(new Commune(elt));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * 
+	 * @return l'intance unique de la class<br/>
+	 */
+	public static CommuneFactory getInstance() {
+		if (uniqInstance == null) {
+			uniqInstance = new CommuneFactory();
+		}
+		return uniqInstance;
 	}
 }

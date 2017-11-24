@@ -18,7 +18,6 @@ import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
 
 import fr.paquet.ihm.AlertWindow;
-import fr.paquet.io.IntegrationMain;
 
 import com.vaadin.ui.VerticalLayout;
 
@@ -59,10 +58,12 @@ public class SiecleImport extends VerticalLayout implements SucceededListener {
 		@Override
 		public void buttonClick(ClickEvent event) {
 
-			// TODO : Affichage de la ProgressBar
-
-			// Integration des *.xml dans la base
-			new IntegrationMain(getRneImport());
+			try {
+				rne.integre();
+			} catch (Exception e) {
+				e.printStackTrace();
+				getXmlView().getUI().getUI().addWindow(new AlertWindow(e.getMessage()).show());
+			}
 
 		}
 	}

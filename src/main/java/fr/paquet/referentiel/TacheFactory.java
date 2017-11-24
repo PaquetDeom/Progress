@@ -1,21 +1,12 @@
 package fr.paquet.referentiel;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-public class TacheFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * @author Nathanaël
-	 * 
-	 *         La class est enfant de ProgressFactory()<br/>
-	 */
+public class TacheFactory extends Connect {
 
-	public TacheFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
+	
 	/**
 	 * Sauvegarde d une Tache()<br/>
 	 */

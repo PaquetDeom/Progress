@@ -1,20 +1,16 @@
 package fr.paquet.progression;
 
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+
+import fr.paquet.dataBase.Connect;
 import fr.paquet.progression.Progression;
-import fr.paquet.referentiel.ProgressFactory;
 import fr.paquet.referentiel.Referentiel;
 
-public class ProgressionFactory extends ProgressFactory {
+public class ProgressionFactory extends Connect {
 
-	public ProgressionFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
+	
 	/**
 	 * 
 	 * @return La liste des progressions d'un referentiel<br/>

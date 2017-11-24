@@ -19,11 +19,11 @@ public class TestClassReferentiel {
 	public void testgetDb() {
 		try {
 
-			Diplome dip = new DiplomeFactory(Connect.getEmf().createEntityManager()).findDiplome("BAC PRO",
+			Diplome dip = new DiplomeFactory().findDiplome("BAC PRO",
 					"TECHNICIEN CONSTRUCTEUR BOIS");
 
-			Referentiel ref = new ReferentielFactory(Connect.getEmf().createEntityManager()).findReferentiel(dip);
-			List<Referentiel> refs = new ReferentielFactory(Connect.getEmf().createEntityManager()).findReferentiels();
+			Referentiel ref = new ReferentielFactory().findReferentiel(dip);
+			List<Referentiel> refs = new ReferentielFactory().findReferentiels();
 
 			assertTrue(ref.getDiplome().getDiplome().equals("BAC PRO"));
 			assertTrue(ref.getDiplome().getType().equals("TECHNICIEN CONSTRUCTEUR BOIS"));

@@ -1,21 +1,12 @@
 package fr.paquet.referentiel;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-public class UniteFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * @author Nathanaël
-	 * 
-	 *         La class est enfant de ProgressFactory()<br/>
-	 */
+public class UniteFactory extends Connect {
 
-	public UniteFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
+	
 	/**
 	 * Sauvegarde d'une unite()<br/>
 	 */

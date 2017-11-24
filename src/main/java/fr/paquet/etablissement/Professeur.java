@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.w3c.dom.Element;
+
 @Entity
 @Table(name = "PROFESSEUR")
 @AttributeOverrides({ @AttributeOverride(name = "id", column = @Column(name = "PFPFID")),
@@ -42,7 +44,7 @@ public class Professeur extends Personne implements AEmploiDuTemps {
 
 	@Column(name = "PFPFLO", length = 50)
 	private String login = null;
-	
+
 	@JoinColumn(name = "PFCLID")
 	@OneToOne
 	private Classe classePrincipale = null;
@@ -52,6 +54,25 @@ public class Professeur extends Personne implements AEmploiDuTemps {
 	 */
 	public Professeur() {
 		super();
+	}
+
+	/**
+	 * Constructeur creation de l'objet a partir d'un*.xml<br/>
+	 * 
+	 * @param elt
+	 * @throws Exception
+	 */
+	public Professeur(Element elt) throws Exception {
+		super(elt);
+		setNom(getStringFromXml("NOM").trim().toUpperCase());
+		setPrenom(getStringFromXml("PRENOM").trim().toUpperCase());
+		setDiscipline(getStringFromXml("DISCIPLINE"));
+		setRecrutement(getStringFromXml("DISC_RECRU"));
+
+		if (getStringFromXml("CIVILITE").equals("M."))
+			setSexe(true);
+		else
+			setSexe(false);
 	}
 
 	/**
@@ -80,11 +101,11 @@ public class Professeur extends Personne implements AEmploiDuTemps {
 	public void setDiscipline(String discipline) {
 		this.discipline = discipline.trim().toUpperCase();
 	}
-	
-	public void setLogin(String login){
+
+	public void setLogin(String login) {
 		this.login = login;
 	}
-		
+
 	public void setClassePrincipale(Classe classePrincipale) {
 		this.classePrincipale = classePrincipale;
 	}
@@ -115,31 +136,30 @@ public class Professeur extends Personne implements AEmploiDuTemps {
 
 	/**
 	 * 
-	 * @return Le concours passé par le professeur sans espace a droite et a
-	 *         gauche et en majuscule<br/>
+	 * @return Le concours passé par le professeur sans espace a droite et a gauche
+	 *         et en majuscule<br/>
 	 *         exemple : "PLP"; "CERTIFIE"<br/>
 	 */
 	public String getRecrutement() {
 		return recrutement;
 	}
-	
+
 	/**
 	 * 
 	 * @return La discipline enseignée<br/>
 	 */
-	public String getDiscipline(){
+	public String getDiscipline() {
 		return discipline;
 	}
-	
+
 	/**
 	 * 
 	 * @return Le login pour se connecter a Progress<br/>
 	 */
-	public String getLogin(){
+	public String getLogin() {
 		return login;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @return La classe dont le prof est prof principal<br/>

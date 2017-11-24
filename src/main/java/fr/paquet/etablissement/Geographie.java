@@ -9,9 +9,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.w3c.dom.Element;
+
+import com.ibm.icu.text.SimpleDateFormat;
+
 @Entity
 @Table(name = "GEOGRAPHIE")
-public class Geographie {
+public class Geographie extends XMLBean {
 
 	/**
 	 * @author Nathanaël
@@ -39,9 +43,24 @@ public class Geographie {
 
 	/**
 	 * Constructeur vide pour la gestion de la DB<br/>
+	 * @param elt 
 	 */
 	public Geographie() {
-		super();
+		super(null);
+	}
+	
+	/**
+	 * Constructeur pour la creation de geographique par *.xml</br>
+	 * @param elt
+	 * @throws Exception
+	 */
+	public Geographie(Element elt) throws Exception {
+		super(elt);
+		setId_Code_Pays(Integer.parseInt(elt.getAttribute("CODE_PAYS")));
+		setLibelle_Court(getStringFromXml("LIBELLE_COURT"));
+		setLibelle_Long(getStringFromXml("LIBELLE_LONG"));
+		setOuverture(getDateFromXml("DATE_OUVERTURE"));
+		setFermeture(getDateFromXml("DATE_FERMETURE"));
 	}
 
 	/**
@@ -61,7 +80,7 @@ public class Geographie {
 	 *             La date de fermeture est avant la date d'ouverture<br/>
 	 */
 	public Geographie(int id, String libCourt, String libLong, Date ouverture, Date fermeture) throws Exception {
-		this();
+		this(null);
 		setId_Code_Pays(id);
 		setLibelle_Court(libCourt);
 		setLibelle_Long(libLong);

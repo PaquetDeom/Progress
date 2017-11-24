@@ -13,10 +13,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.w3c.dom.Element;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Personne {
+public class Personne extends XMLBean {
 
 	/**
 	 * @author Nathanaël
@@ -55,8 +56,12 @@ public class Personne {
 	/**
 	 * Constructeur vide pour la data base<br/>
 	 */
-	public Personne() {
-		super();
+	protected Personne() {
+		super(null);
+	}
+	
+	protected Personne(Element elt) {
+		super(elt);
 	}
 
 	/**

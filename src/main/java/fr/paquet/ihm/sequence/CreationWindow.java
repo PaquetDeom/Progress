@@ -203,7 +203,7 @@ public class CreationWindow extends Window {
 
 						getSeqView().setTitre(getSeqView().getTitreField().getValue());
 						Sequence seq = new Sequence(getSeqView().getProgression(), getSeqView().getTitre());
-						new SequenceFactory(Connect.getEmf().createEntityManager()).save(seq);
+						new SequenceFactory().save(seq);
 
 						getSeqView().getSequenceViewPanelContent().getUI().getUI().addWindow(new NewSeqView(seq));
 

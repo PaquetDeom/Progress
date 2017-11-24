@@ -1,19 +1,11 @@
 package fr.paquet.referentiel;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-public class CapaciteFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * La class extends ProgressFactory
-	 * 
-	 * @param em
-	 */
-	public CapaciteFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
+public class CapaciteFactory extends Connect {
+
 
 	/**
 	 * Methode qui gere la sauvegarde d'une capacite<br/>

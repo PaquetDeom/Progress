@@ -1,20 +1,11 @@
 package fr.paquet.referentiel;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-public class FonctionFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * @author Nathanaël
-	 * 
-	 *         La class est enfant de ProgressFactory()<br/>
-	 */
+public class FonctionFactory extends Connect {
 
-	public FonctionFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
 
 	/**
 	 * Sauvegarde de Fonction()<br/>

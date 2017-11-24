@@ -1,18 +1,15 @@
 package fr.paquet.sequence;
 
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+
+import fr.paquet.dataBase.Connect;
 import fr.paquet.progression.Progression;
-import fr.paquet.referentiel.ProgressFactory;
 
-public class SequenceFactory extends ProgressFactory {
 
-	public SequenceFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
+public class SequenceFactory extends Connect {
+
 
 	/**
 	 * 

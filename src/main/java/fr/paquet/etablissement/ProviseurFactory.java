@@ -6,19 +6,10 @@ import javax.persistence.EntityTransaction;
 import org.w3c.dom.Element;
 
 import fr.paquet.dataBase.Connect;
-import fr.paquet.referentiel.ProgressFactory;
 
-public class ProviseurFactory extends ProgressFactory {
+public class ProviseurFactory extends Connect {
 
-	public ProviseurFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
-	public ProviseurFactory(Element elt) {
-
-		Load(elt);
-	}
+	private static ProviseurFactory uniqInqtance = null;
 
 	/**
 	 * Sauvegarde un proviseur<br/>
@@ -62,31 +53,18 @@ public class ProviseurFactory extends ProgressFactory {
 	public void Load(Element elt) {
 
 		try {
-
-			Proviseur pro = new Proviseur();
-			String nom = null;
-			String prenom = null;
-			String denomination = null;
-
-			String exp1 = "NOM_RESP";
-			String str1 = elt.getElementsByTagName(exp1).item(0).getTextContent();
-			String[] str1Tab1 = str1.split(" ");
-			prenom = str1Tab1[0];
-			nom = str1Tab1[1];
-			pro.setNom(nom);
-			pro.setPrenom(prenom);
-
-			String exp2 = "DENOM_PRINC";
-			denomination = elt.getElementsByTagName(exp2).item(0).getTextContent();
-
-			new ProviseurFactory(Connect.getEmf().createEntityManager()).save(pro);
-			new EtablissementFactory(Connect.getEmf().createEntityManager()).AffectProviseur(denomination, pro);
-
-			pro = null;
-
+			save(new Proviseur(elt));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	public static ProviseurFactory getInstance() {
+		if (uniqInqtance == null) {
+			uniqInqtance = new ProviseurFactory();
+		}
+		return uniqInqtance;
 	}
 
 }

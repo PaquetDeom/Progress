@@ -1,22 +1,11 @@
 package fr.paquet.commun;
 
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import fr.paquet.referentiel.ProgressFactory;
 
-public class DiplomeFactory extends ProgressFactory {
+import fr.paquet.dataBase.Connect;
 
-	/**
-	 * @author Nathanaël
-	 * 
-	 *         La classe est enfant de ProgressFactory()<br/>
-	 */
-
-	public DiplomeFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
+public class DiplomeFactory extends Connect {
 
 	@SuppressWarnings("unchecked")
 	/**

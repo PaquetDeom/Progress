@@ -1,24 +1,14 @@
 package fr.paquet.etablissement;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import org.w3c.dom.Element;
 
 import fr.paquet.dataBase.Connect;
-import fr.paquet.referentiel.ProgressFactory;
 
-public class ProfesseurFactory extends ProgressFactory {
+public class ProfesseurFactory extends Connect {
 
-	public ProfesseurFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
-	public ProfesseurFactory(Element elt) {
-
-		Load(elt);
-	}
+	private static ProfesseurFactory uniqInstance = null;
 
 	/**
 	 * Sauvegarde un professeur<br/>
@@ -63,45 +53,22 @@ public class ProfesseurFactory extends ProgressFactory {
 
 		try {
 
-			Professeur prof = new Professeur();
-
-			String exp1 = "NOM";
-			String str1 = elt.getElementsByTagName(exp1).item(0).getTextContent();
-			prof.setNom(str1);
-
-			String exp2 = "PRENOM";
-			String str2 = elt.getElementsByTagName(exp2).item(0).getTextContent();
-			prof.setPrenom(str2);
-
-			String exp3 = "DISCIPLINE";
-			String str3 = elt.getElementsByTagName(exp3).item(0).getTextContent();
-			prof.setDiscipline(str3);
-
-			String exp4 = "DISC_RECRU";
-			String str4 = elt.getElementsByTagName(exp4).item(0).getTextContent();
-			prof.setRecrutement(str4);
-
-			String exp7 = "CIVILITE";
-			String str7 = elt.getElementsByTagName(exp7).item(0).getTextContent();
-			if (str7.equals("M."))
-				prof.setSexe(true);
-			else
-				prof.setSexe(false);
-
-			String exp8 = "CLASSES";
-			String str8 = elt.getElementsByTagName(exp8).item(0).getTextContent();
-			// Classe cla = new
-			// ClasseFactory(Connect.getEmf().createEntityManager()).findClasseByFormation(str8,
-			// str8);
-			// prof.setClassePrincipale(cla);
-
-			new ProfesseurFactory(Connect.getEmf().createEntityManager()).save(prof);
-
-			prof = null;
+			save(new Professeur(elt));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 
+	 * @return l'intance unique de la class<br/>
+	 */
+	public static ProfesseurFactory getInstance() {
+		if (uniqInstance == null) {
+			uniqInstance = new ProfesseurFactory();
+		}
+		return uniqInstance;
 	}
 
 }

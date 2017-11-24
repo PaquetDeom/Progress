@@ -135,7 +135,7 @@ public class ProgressionView extends AbsoluteLayout implements ProgView {
 	 */
 	public List<Referentiel> getReferentiels() throws Exception {
 		if (referentiels == null)
-			referentiels = new ReferentielFactory(Connect.getEmf().createEntityManager()).findReferentiels();
+			referentiels = new ReferentielFactory().findReferentiels();
 		return referentiels;
 	}
 
@@ -221,7 +221,7 @@ public class ProgressionView extends AbsoluteLayout implements ProgView {
 
 		titre = getTitreField().getValue();
 
-		List<Progression> progs = new ProgressionFactory(Connect.getEmf().createEntityManager())
+		List<Progression> progs = new ProgressionFactory()
 				.findProgressions(getReferentiel());
 
 		for (int i = 0; i < progs.size(); i++) {

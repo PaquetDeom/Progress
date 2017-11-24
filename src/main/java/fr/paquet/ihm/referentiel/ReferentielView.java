@@ -133,7 +133,7 @@ public class ReferentielView extends AbsoluteLayout implements ProgView {
 
 	public Component getListDiplomes() throws Exception {
 
-		List<Diplome> dips = new DiplomeFactory(Connect.getEmf().createEntityManager()).findDiplomes();
+		List<Diplome> dips = new DiplomeFactory().findDiplomes();
 		
 		IntStream.range(0, dips.size()).mapToObj(i -> {
 			try {

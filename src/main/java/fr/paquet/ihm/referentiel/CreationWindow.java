@@ -112,7 +112,7 @@ public class CreationWindow extends Window {
 					// getRefView().getIntitule());
 					Referentiel ref = new Referentiel(getRefView().getDiplome());
 
-					new ReferentielFactory(Connect.getEmf().createEntityManager()).save(ref);
+					new ReferentielFactory().save(ref);
 
 					getRefView().getReferentielViewPanelContent().getUI().getUI().addWindow(new NewRefView(ref));
 

@@ -18,10 +18,10 @@ public class TestClassSavoirAssocie {
 	public void testgetDb() {
 		try {
 
-			Diplome dip = new DiplomeFactory(Connect.getEmf().createEntityManager()).findDiplome("BAC PRO",
+			Diplome dip = new DiplomeFactory().findDiplome("BAC PRO",
 					"TECHNICIEN CONSTRUCTEUR BOIS");
 
-			Referentiel ref = new ReferentielFactory(Connect.getEmf().createEntityManager()).findReferentiel(dip);
+			Referentiel ref = new ReferentielFactory().findReferentiel(dip);
 
 			Savoir sav = ref.getCapacites().get(0).getCompetences().get(0).getSavoirs().get(0);
 

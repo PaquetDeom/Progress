@@ -14,11 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.w3c.dom.Element;
+
 import fr.paquet.commun.Diplome;
 
 @Entity
 @Table(name = "CLASSE")
-public class Classe {
+public class Classe extends XMLBean {
 
 	/**
 	 * @author Nathanaël
@@ -57,7 +59,15 @@ public class Classe {
 	 * Constructeur de la class pour la gestion de la DB<br/>
 	 */
 	public Classe() {
-		super();
+		super(null);
+	}
+	
+	public Classe(Element elt) throws Exception {
+		super(elt);
+		setCode(elt.getAttribute("CODE_MEF"));
+		setFormation(getStringFromXml("FORMATION"));
+		setIntitule(getStringFromXml("LIBELLE_LONG"));
+		//TODO Affect un etablissement
 	}
 
 	/**

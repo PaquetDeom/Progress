@@ -1,6 +1,5 @@
 package fr.paquet.etablissement;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -8,19 +7,10 @@ import javax.persistence.Query;
 import org.w3c.dom.Element;
 
 import fr.paquet.dataBase.Connect;
-import fr.paquet.referentiel.ProgressFactory;
 
-public class ClasseFactory extends ProgressFactory {
+public class ClasseFactory extends Connect {
 
-	public ClasseFactory(EntityManager em) {
-		super();
-		setEm(em);
-	}
-
-	public ClasseFactory(Element elt, String Rne) {
-
-		Load(elt, Rne);
-	}
+	private static ClasseFactory uniqInstance = null;
 
 	/**
 	 * Sauvegarde une classe<br/>
@@ -79,35 +69,26 @@ public class ClasseFactory extends ProgressFactory {
 		}
 	}
 
-	public void Load(Element elt, String Rne) {
+	public void Load(Element elt) {
 
 		try {
 
-			Etablissement etab = new EtablissementFactory(Connect.getEmf().createEntityManager())
-					.findEtablissementByRne(Rne);
-			Classe cla = new Classe();
-			cla.setEtablissement(etab);
-			String code = null;
-			String formation = null;
-			String intitule = null;
-
-			code = elt.getAttribute("CODE_MEF");
-			cla.setCode(code);
-
-			String exp1 = "FORMATION";
-			formation = elt.getElementsByTagName(exp1).item(0).getTextContent();
-			cla.setFormation(formation);
-
-			String exp2 = "LIBELLE_LONG";
-			intitule = elt.getElementsByTagName(exp2).item(0).getTextContent();
-			cla.setIntitule(intitule);
-
-			new ClasseFactory(Connect.getEmf().createEntityManager()).save(cla);
-			cla = null;
+			save(new Classe(elt));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 
+	 * @return L'intance unique de la class<br/>
+	 */
+	public static ClasseFactory getInstance() {
+		if (uniqInstance == null) {
+			uniqInstance = new ClasseFactory();
+		}
+		return uniqInstance;
 	}
 
 }
