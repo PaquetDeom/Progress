@@ -50,10 +50,10 @@ public class ProviseurFactory extends Connect {
 		}
 	}
 
-	public void Load(Element elt, String rne) {
+	public void Load(Element elt, Etablissement etab) {
 
 		try {
-			save(new Proviseur(elt, rne));
+			save(new Proviseur(elt, etab));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

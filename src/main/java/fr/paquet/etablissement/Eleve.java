@@ -53,7 +53,7 @@ public class Eleve extends Personne implements AEmploiDuTemps {
 	private String login = null;
 
 	public Eleve() {
-		super(null);
+		super();
 	}
 
 	public Eleve(Element elt) throws Exception {

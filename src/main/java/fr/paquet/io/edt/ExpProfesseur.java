@@ -15,7 +15,7 @@ public class ExpProfesseur extends XMLFileIntegration {
 	@Override
 	public void integre(String rne) {
 		for (Element elt : getElements("Professeurs")) {
-			ProfesseurFactory.getInstance().Load(elt, rne);
+			ProfesseurFactory.getInstance().Load(elt);
 		}
 	}
 }

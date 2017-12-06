@@ -59,16 +59,17 @@ public class Etablissement extends XMLBean {
 	 * Constructeur vide pour la gestion de la DB<br/>
 	 */
 	public Etablissement() {
-		super(null, null);
+		super(null);
 	}
 
-	public Etablissement(Element elt, String rne) throws Exception {
-		super(elt, rne);
-		setCodeRNE(rne);
+	public Etablissement(Element elt, Etablissement etab) throws Exception {
+		super(elt, etab);
+		setCodeRNE(etab.getCodeRne());
 		setDenominationPrincipale(getStringFromXml("DENOM_PRINC"));
 		setDenominationComplementaire(getStringFromXml("DENOM_COMPL"));
-		//TODO Date ouverture/fermeture
-
+		setDateOuverture(etab.getDateOuverture());
+		setDateFermeture(etab.getDateFermeture());
+		
 	}
 
 	public void setProviseur(Proviseur proviseur) {

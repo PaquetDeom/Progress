@@ -7,7 +7,6 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.w3c.dom.Element;
@@ -31,7 +30,7 @@ public class Proviseur extends Personne {
 	 * Constructeur vide pour la gestion de la DB<br/>
 	 */
 	public Proviseur() {
-		super(null, null);
+		super(null);
 	}
 
 	/**
@@ -41,15 +40,15 @@ public class Proviseur extends Personne {
 	 * @param elt
 	 * @throws Exception
 	 */
-	public Proviseur(Element elt, String rne) throws Exception {
-		super(elt, rne);
+	public Proviseur(Element elt, Etablissement etab) throws Exception {
+		super(elt);
 
 		String exp1 = "NOM_RESP";
 		String str1 = elt.getElementsByTagName(exp1).item(0).getTextContent();
 		String[] str1Tab1 = str1.split(" ");
 		setNom(getStringFromXml(str1Tab1[1]));
 		setPrenom(getStringFromXml(str1Tab1[0]));
-		addEtablissement(EtablissementFactory.getEtablissement(rne));
+		addEtablissement(etab);
 
 	}
 

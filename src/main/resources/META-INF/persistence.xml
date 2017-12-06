@@ -34,7 +34,7 @@
 		<class>fr.paquet.etablissement.Eleve</class>
 		<class>fr.paquet.etablissement.Proviseur</class>
 		<class>fr.paquet.etablissement.Professeur</class>
-		<class>fr.paquet.etablissement.ResponsableEleve</class>
+		<class>fr.paquet.etablissement.Personne</class>
 		<class>fr.paquet.etablissement.Classe</class>
 		<class>fr.paquet.etablissement.Coordonnee</class>
 		<class>fr.paquet.etablissement.Commune</class>

@@ -9,9 +9,15 @@ import com.ibm.icu.text.SimpleDateFormat;
 public class XMLBean {
 	private Element elt = null;
 	private Etablissement etab = null;
+	private String rne = null;
 
 	public XMLBean(Element elt) {
-		this(elt, null);
+		this.elt = elt;
+	}
+	
+	public XMLBean(Element elt, String rne) {
+		this.elt = elt;
+		this.rne = rne;
 	}
 
 	public XMLBean(Element elt, Etablissement etab) {
