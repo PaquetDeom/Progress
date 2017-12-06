@@ -40,11 +40,13 @@ public class RneIntegration {
 	private static DocumentBuilder builder = null;
 	private XMLDocuments doc = null;
 	private Path path = null;
+	private String rne = null;
 
-	public RneIntegration(XMLDocuments doc, String path) {
+	public RneIntegration(XMLDocuments doc, String path,  String rne) {
 		super();
 		setDoc(doc);
 		setPath(path);
+		setRne(rne);
 	}
 
 	/**
@@ -80,12 +82,10 @@ public class RneIntegration {
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public Document getDocument()
-			throws SAXException, IOException, ParserConfigurationException {
-			File file = new File(getPath().toString());
-			return getDocumentBuilder().parse(file);
+	public Document getDocument() throws SAXException, IOException, ParserConfigurationException {
+		File file = new File(getPath().toString());
+		return getDocumentBuilder().parse(file);
 	}
-	
 
 	/**
 	 * 
@@ -127,7 +127,15 @@ public class RneIntegration {
 	}
 
 	public void integre() throws Exception {
-		XMLFileIntegration integrator=doc.getIntegrator().newInstance();
-		integrator.integre();
+		XMLFileIntegration integrator = doc.getIntegrator().newInstance();
+		integrator.integre(getRne());
+	}
+
+	private String getRne() {
+		return rne;
+	}
+
+	private void setRne(String rne) {
+		this.rne = rne;
 	}
 }

@@ -25,26 +25,42 @@ public class Proviseur extends Personne {
 	 *         La class represente un proviseur d'un EPLE<br/>
 	 */
 
+	private List<Etablissement> etablissements = null;
+
 	/**
 	 * Constructeur vide pour la gestion de la DB<br/>
 	 */
 	public Proviseur() {
-		super(null);
+		super(null, null);
 	}
-	
+
 	/**
-	 * Constructeur de la class qui permet la creation d'un proviseur a partir d'un *.xml<br/>
+	 * Constructeur de la class qui permet la creation d'un proviseur a partir d'un
+	 * *.xml<br/>
+	 * 
 	 * @param elt
 	 * @throws Exception
 	 */
-	public Proviseur(Element elt) throws Exception {
-		super(elt);
+	public Proviseur(Element elt, String rne) throws Exception {
+		super(elt, rne);
+
 		String exp1 = "NOM_RESP";
 		String str1 = elt.getElementsByTagName(exp1).item(0).getTextContent();
 		String[] str1Tab1 = str1.split(" ");
 		setNom(getStringFromXml(str1Tab1[1]));
 		setPrenom(getStringFromXml(str1Tab1[0]));
-		//TODO Affect un etablissement
+		addEtablissement(EtablissementFactory.getEtablissement(rne));
+
+	}
+
+	public List<Etablissement> getEtablissements() {
+		if (etablissements == null)
+			etablissements = new ArrayList<Etablissement>();
+		return etablissements;
+	}
+
+	private void addEtablissement(Etablissement etab) {
+		getEtablissements().add(etab);
 	}
 
 }

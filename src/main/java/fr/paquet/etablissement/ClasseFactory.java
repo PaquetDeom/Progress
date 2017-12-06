@@ -69,11 +69,11 @@ public class ClasseFactory extends Connect {
 		}
 	}
 
-	public void Load(Element elt) {
+	public void Load(Element elt, Etablissement etab) {
 
 		try {
 
-			save(new Classe(elt));
+			save(new Classe(elt, etab));
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -25,15 +25,12 @@ public class RneImport {
 	}
 
 	private static Hashtable<String, RneImport> listRneImport = new Hashtable<String, RneImport>();
-	private static Path pathFolder = null;
-
 	private String rne = null;
 
 	private RneImport(String codeRne) throws Exception {
 		setRne(codeRne);
 	}
 
-	
 	private void setRne(String rne) throws Exception {
 
 		// test si la valeur est nulle ou vide
@@ -225,7 +222,7 @@ public class RneImport {
 	 */
 	public void integre() throws Exception {
 		for (XMLDocuments doc : EnumSet.allOf(XMLDocuments.class)) {
-			new RneIntegration(doc, getPathFolderImport() + "/" + doc.fileName()).integre();
+			new RneIntegration(doc, getPathFolderImport() + "/" + doc.fileName(), getRne()).integre();
 		}
 	}
 }

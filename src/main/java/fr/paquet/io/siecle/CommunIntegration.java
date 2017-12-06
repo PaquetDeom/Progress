@@ -17,15 +17,16 @@ public class CommunIntegration extends XMLFileIntegration {
 	}
 
 	@Override
-	public void integre() {
+	public void integre(String rne) throws Exception {
+
 		for (Element elt : getElements("DONNEES")) {
-			EtablissementFactory.getInstance().Load(elt);
+			EtablissementFactory.getInstance().Load(elt, EtablissementFactory.getInstance().findEtablissementByRne(rne));
 		}
-		
+
 		for (Element elt : getElements("PARAMETRES")) {
-			ProviseurFactory.getInstance().Load(elt);
+			ProviseurFactory.getInstance().Load(elt, EtablissementFactory.getInstance().findEtablissementByRne(rne));
 		}
-		
+
 	}
 
 }

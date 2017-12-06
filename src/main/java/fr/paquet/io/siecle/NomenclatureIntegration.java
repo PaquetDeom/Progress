@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import fr.paquet.etablissement.ClasseFactory;
+import fr.paquet.etablissement.EtablissementFactory;
 
 public class NomenclatureIntegration extends XMLFileIntegration {
 
@@ -13,9 +14,9 @@ public class NomenclatureIntegration extends XMLFileIntegration {
 	}
 
 	@Override
-	public void integre() {
+	public void integre(String rne) throws Exception {
 		for (Element elt : getElements("MEF")) {
-			ClasseFactory.getInstance().Load(elt);
+			ClasseFactory.getInstance().Load(elt, EtablissementFactory.getInstance().findEtablissementByRne(rne));
 		}
 		
 	}

@@ -57,11 +57,11 @@ public class Personne extends XMLBean {
 	 * Constructeur vide pour la data base<br/>
 	 */
 	protected Personne() {
-		super(null);
+		super(null, null);
 	}
 	
-	protected Personne(Element elt) {
-		super(elt);
+	protected Personne(Element elt, String rne) {
+		super(elt, rne);
 	}
 
 	/**

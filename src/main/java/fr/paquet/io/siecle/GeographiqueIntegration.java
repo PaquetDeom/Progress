@@ -13,7 +13,7 @@ public class GeographiqueIntegration extends XMLFileIntegration {
 	}
 
 	@Override
-	public void integre() {
+	public void integre(String rne) {
 		for(Element elt:getElements("PAYS_NATIONALITE")) {
 			GeographieFactory.getInstance().Load(elt);
 		}

@@ -27,6 +27,6 @@ public abstract class XMLFileIntegration {
 		return list;
 	}
 	
-	public abstract void integre();
+	public abstract void integre(String rne) throws Exception;
 
 }

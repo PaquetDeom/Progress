@@ -13,7 +13,7 @@ public class Connect {
 	 */
 
 	private static EntityManagerFactory emf = null;
-	private static EntityManager em = getEmf().createEntityManager();
+	private static EntityManager em = null;
 
 	/**
 	 * 
@@ -34,6 +34,8 @@ public class Connect {
 	 *         Classe mére de toutes les class (Factory) du package référentiel<br/>
 	 */
 	public static EntityManager getEm() {
+		if(em == null)
+			em = getEmf().createEntityManager();
 		return em;
 	}
 

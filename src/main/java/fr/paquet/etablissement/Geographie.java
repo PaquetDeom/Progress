@@ -43,14 +43,16 @@ public class Geographie extends XMLBean {
 
 	/**
 	 * Constructeur vide pour la gestion de la DB<br/>
-	 * @param elt 
+	 * 
+	 * @param elt
 	 */
 	public Geographie() {
 		super(null);
 	}
-	
+
 	/**
 	 * Constructeur pour la creation de geographique par *.xml</br>
+	 * 
 	 * @param elt
 	 * @throws Exception
 	 */

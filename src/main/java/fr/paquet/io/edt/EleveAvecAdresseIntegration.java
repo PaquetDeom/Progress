@@ -14,9 +14,9 @@ public class EleveAvecAdresseIntegration extends XMLFileIntegration {
 	}
 
 	@Override
-	public void integre() {
+	public void integre(String rne) {
 		for (Element elt : getElements("ELEVE")) {
-			EleveFactory.getInstance().Load(elt);
+			EleveFactory.getInstance().Load(elt, rne);
 		}
 
 	}

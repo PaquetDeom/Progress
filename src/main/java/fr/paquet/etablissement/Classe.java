@@ -59,15 +59,15 @@ public class Classe extends XMLBean {
 	 * Constructeur de la class pour la gestion de la DB<br/>
 	 */
 	public Classe() {
-		super(null);
+		super(null, null);
 	}
 	
-	public Classe(Element elt) throws Exception {
-		super(elt);
+	public Classe(Element elt, Etablissement etab) throws Exception {
+		super(elt, null);
 		setCode(elt.getAttribute("CODE_MEF"));
 		setFormation(getStringFromXml("FORMATION"));
 		setIntitule(getStringFromXml("LIBELLE_LONG"));
-		//TODO Affect un etablissement
+		setEtablissement(etab);
 	}
 
 	/**

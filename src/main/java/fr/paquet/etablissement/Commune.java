@@ -38,6 +38,11 @@ public class Commune extends XMLBean {
 		super(null);
 	}
 	
+	/**
+	 * constructeur creation de l'objet a partir d'un *.xml<br/>
+	 * @param elt
+	 * @throws Exception
+	 */
 	public Commune(Element elt) throws Exception {
 		super(elt);
 		setCodeCommune(elt.getAttribute("CODE_COMMUNE_INSEE"));

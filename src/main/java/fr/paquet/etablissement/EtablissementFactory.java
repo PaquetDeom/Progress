@@ -60,19 +60,11 @@ public class EtablissementFactory extends Connect {
 	 * @param id
 	 * @return un etablissement depuis son id<br/>
 	 */
-	public Etablissement findEtablissementByRne(String codeRNE) {
+	public Etablissement findEtablissementByRne(String codeRNE) throws Exception {
 
 		Query query = getEm().createQuery("SELECT etab FROM Etablissement etab where etab.codeRNE=:codeRNE");
 		query.setParameter("codeRNE", codeRNE);
-
-		try {
-
-			return (Etablissement) query.getSingleResult();
-
-		} catch (NoResultException e) {
-			return null;
-		}
-
+		return (Etablissement) query.getSingleResult();
 	}
 
 	/**
@@ -105,10 +97,10 @@ public class EtablissementFactory extends Connect {
 
 	}
 
-	public void Load(Element elt) {
+	public void Load(Element elt, Etablissement etab) {
 
 		try {
-			save(new Etablissement(elt));
+			save(new Etablissement(elt, etab));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -124,6 +116,10 @@ public class EtablissementFactory extends Connect {
 			uniqInstance = new EtablissementFactory();
 		}
 		return uniqInstance;
+	}
+
+	public static Etablissement getEtablissement(String rne) throws Exception {
+		return getInstance().findEtablissementByRne(rne);
 	}
 
 }
