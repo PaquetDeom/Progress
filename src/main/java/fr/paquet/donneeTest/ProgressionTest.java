@@ -1,5 +1,6 @@
 package fr.paquet.donneeTest;
 
+
 import fr.paquet.progression.ConfigCompInt;
 import fr.paquet.progression.Progression;
 import fr.paquet.referentiel.Capacite;
@@ -18,16 +19,16 @@ public class ProgressionTest {
 				prog = new Progression(ReferentielTest.getReferentiel(), "PROGRESSION 1");
 
 				Capacite cap1 = ReferentielTest.getReferentiel().getCapacites().get(0);
-				Capacite cap2 = ReferentielTest.getReferentiel().getCapacites().get(1);
-				Capacite cap3 = ReferentielTest.getReferentiel().getCapacites().get(2);
+				Capacite cap4 = ReferentielTest.getReferentiel().getCapacites().get(3);
+				Capacite cap5 = ReferentielTest.getReferentiel().getCapacites().get(4);
 
-				Competence comp1 = cap1.getCompetences().get(0);
-				Competence comp2 = cap2.getCompetences().get(0);
-				Competence comp3 = cap3.getCompetences().get(0);
+				Competence comp14 = cap1.getCompetences().get(3);
+				Competence comp41 = cap4.getCompetences().get(0);
+				Competence comp53 = cap5.getCompetences().get(2);
 
-				CompetenceIntermediaire compInt1 = comp1.getCompetencesIntermediaires().get(0);
-				CompetenceIntermediaire compInt2 = comp2.getCompetencesIntermediaires().get(0);
-				CompetenceIntermediaire compInt3 = comp3.getCompetencesIntermediaires().get(0);
+				CompetenceIntermediaire compInt1 = comp14.getCompetencesIntermediaires().get(0);
+				CompetenceIntermediaire compInt2 = comp41.getCompetencesIntermediaires().get(0);
+				CompetenceIntermediaire compInt3 = comp53.getCompetencesIntermediaires().get(0);
 
 				new ConfigCompInt(prog, compInt1, 1, 3);
 				new ConfigCompInt(prog, compInt2, 2, 5);
